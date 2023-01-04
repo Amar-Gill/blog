@@ -2,7 +2,7 @@
 layout: "@/layouts/BlogPost"
 title: Setting up Neovim for Astro development
 publishDate: January 16, 2023
-description: My configuration options and plug ins
+description: The settings and plug ins I use to build Astro websites
 tags: ["astro", "neovim"]
 draft: true
 ---
@@ -16,17 +16,17 @@ It's January 2023, and I have these configuration options and plug ins to use Ne
   - continue reading to learn why, though this may change in the future
 
 #### Basics
-For any new language or framework I start to use, I require LSP support and syntax highlighting. This is supported well in Neovim through the [astro]() LSP available in [nvim-lsp-configs]() plug ins and [TreeSitter]() grammar for Astro.
+The bare minimum I require is an LSP server and syntax highlighting. This is supported well in Neovim through the [astro]() LSP available in [nvim-lsp-configs]() plug ins and [TreeSitter]() grammar for Astro.
 
-#### .mdx Syntax highlighting
+#### Mdx Syntax Highlighting
 After setting up the basics, I noticed `.mdx` files were not being highlighted at all, despite having the [markdown]() tree sitter grammar installed. I searched around and couldn't find a tree-sitter grammar for `.mdx` files, but there was a neovim plug in that I could install instead: [link-to-plugin]().
 
-I'm really happy with this plugin so far. It provides correct syntax highlighting of frontmatter which is JavaScript, and inline code blocks of most languages I write about.
+I'm really happy with this plugin so far. It provides correct syntax highlighting of frontmatter which is `yaml` for `mdx` files, and inline code blocks of most languages I write about.
 
 #### Formatting
-Consistent and fast format on save functionality is non-negotiable for me to do any serious development with any framework. Being a JavaScript framework, many of [astro templates]() I looked at had at [prettier]() and [eslint]() configured. Great!
+Consistent and fast formatting is non-negotiable for me. Being a JavaScript framework, many of the [astro templates]() I looked at had [prettier]() and [eslint]() configured. Great! My configuration is already working with React so Astro should not be too different.
 
-After testing it out on a project, I noticed the formatter was not working. Runnig `LspInfo` nvim command showed that `null-ls` server was not attached to the buffer.
+After testing it out on a project, I noticed the formatter was not working. Running `:LspInfo` nvim command showed that `null-ls` server was not attached to the buffer.
 
 Looking at the [prettierd]() default arguments, the `astro` filetype was not included. So I added it as an `extra_filetype`:
 
@@ -38,7 +38,7 @@ Now I was able to get the `null-ls` server attached to the `astro` buffer, but t
 
 After reading into the [vs-code-astro-plugin]() I learned that the formatting is included in the LSP itself.
 
-So I need to update my LSP formatting handler to use both `null-ls` and `astro` LSP servers. Up until it had only been `null-ls`:
+So instead I need to update my LSP formatting handler to use both `null-ls` and `astro` LSP servers. Until now it had only been `null-ls`:
 
 ```lua
 local lsp_formatting = function(bufnr)
@@ -51,4 +51,4 @@ local lsp_formatting = function(bufnr)
 end
 ```
 
-I'm curious about how the formatter was developed, since it is based on Prettier and Eslint. But whether I use `null-ls` or the Astro LSP server, it was a one-line change to get the formatter working.
+I'm still curious why formatting doesn't work even after including `astro` filetype for Prettierd. But whether I use `null-ls` or the Astro LSP server, it was a one-line change to get the formatter working.
