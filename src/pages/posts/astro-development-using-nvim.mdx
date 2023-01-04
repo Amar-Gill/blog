@@ -1,0 +1,54 @@
+---
+layout: "@/layouts/BlogPost"
+title: Setting up Neovim for Astro development
+publishDate: January 16, 2023
+description: My configuration options and plug ins
+tags: ["astro", "neovim"]
+draft: true
+---
+
+#### TLDR
+It's January 2023, and I have these configuration options and plug ins to use Neovim for developing with the Astro framework:
+- `astro` LSP server, available in [nvim-lsp-config]() plugin and [mason]()
+- [astro-treesitter-grammar]() for syntax highlighting of `.astro` files
+- [this-plugin]() for syntax highlighting of `.mdx` files
+- I use the document formatter provided by the Astro LSP, and *not* the [prettierd]() built in formatting source available in [`null-ls`]() plugin
+  - continue reading to learn why, though this may change in the future
+
+#### Basics
+For any new language or framework I start to use, I require LSP support and syntax highlighting. This is supported well in Neovim through the [astro]() LSP available in [nvim-lsp-configs]() plug ins and [TreeSitter]() grammar for Astro.
+
+#### .mdx Syntax highlighting
+After setting up the basics, I noticed `.mdx` files were not being highlighted at all, despite having the [markdown]() tree sitter grammar installed. I searched around and couldn't find a tree-sitter grammar for `.mdx` files, but there was a neovim plug in that I could install instead: [link-to-plugin]().
+
+I'm really happy with this plugin so far. It provides correct syntax highlighting of frontmatter which is JavaScript, and inline code blocks of most languages I write about.
+
+#### Formatting
+Consistent and fast format on save functionality is non-negotiable for me to do any serious development with any framework. Being a JavaScript framework, many of [astro templates]() I looked at had at [prettier]() and [eslint]() configured. Great!
+
+After testing it out on a project, I noticed the formatter was not working. Runnig `LspInfo` nvim command showed that `null-ls` server was not attached to the buffer.
+
+Looking at the [prettierd]() default arguments, the `astro` filetype was not included. So I added it as an `extra_filetype`:
+
+```lua
+require("null-ls").builtin.prettierd.with({ extra_filetypes = { "astro" }})
+```
+
+Now I was able to get the `null-ls` server attached to the `astro` buffer, but the formatting was still not happening.
+
+After reading into the [vs-code-astro-plugin]() I learned that the formatting is included in the LSP itself.
+
+So I need to update my LSP formatting handler to use both `null-ls` and `astro` LSP servers. Up until it had only been `null-ls`:
+
+```lua
+local lsp_formatting = function(bufnr)
+	vim.lsp.buf.format({
+		filter = function(client)
+			return client.name == "null-ls" or client.name == "astro"
+		end,
+		bufnr = bufnr,
+	})
+end
+```
+
+I'm curious about how the formatter was developed, since it is based on Prettier and Eslint. But whether I use `null-ls` or the Astro LSP server, it was a one-line change to get the formatter working.
