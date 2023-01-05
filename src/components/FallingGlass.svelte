@@ -15,7 +15,7 @@
 
 <style>
 	div {
-		background-color: black;
+		
 	}
 </style>
 
@@ -38,7 +38,7 @@
 
 <div>
 	{#if width}
-	<svg {height} {width}>
+	<svg {height} {width} fill="none" stroke="currentColor" stroke-width="1">
 		{#each {length: numColumns} as _column, i}
 			<DeformingSquares {rows} {margin} {squareSize} {scale} {width} x={i*(squareSize+margin)}/>
 			<DeformingSquares {rows} {margin} {squareSize} {scale} {width} x={i*(squareSize+margin)}/>

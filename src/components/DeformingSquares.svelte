@@ -61,10 +61,9 @@
 		}
 </script>
 
-<!-- TODO whats this for? -->
 {#if squares.length}
 	{#each squares as square}
-		<path fill="none" stroke="white" stroke-width="1"
+		<path 
 					d="M{square.x1 + x + perturb(square.seeds[0])} {square.y1 + perturb(square.seeds[1])} 
 						 L{square.x2 + x + perturb(square.seeds[2])} {square.y2 + perturb(square.seeds[3])}
 						 L{square.x3 + x + perturb(square.seeds[4])} {square.y3 + perturb(square.seeds[5])}
