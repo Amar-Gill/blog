@@ -17,6 +17,7 @@
 		"@tailwindcss/aspect-ratio": "^0.4.2",
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"@tailwindcss/typography": "^0.5.8",
+		"@types/d3-scale": "^4.0.3",
 		"@types/eslint": "^8.4.10",
 		"@types/prettier": "^2.7.1",
 		"@typescript-eslint/eslint-plugin": "^5.43.0",
@@ -44,6 +45,9 @@
 	},
 	"dependencies": {
 		"@astrojs/prefetch": "^0.1.1",
-		"sharp": "^0.31.2"
+		"@astrojs/svelte": "^1.0.2",
+		"d3-scale": "^4.0.2",
+		"sharp": "^0.31.2",
+		"svelte": "^3.46.4"
 	}
 }
