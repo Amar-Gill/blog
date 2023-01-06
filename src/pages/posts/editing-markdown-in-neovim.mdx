@@ -1,0 +1,41 @@
+---
+layout: "@/layouts/BlogPost"
+title: Editing Markdown in Neovim
+publishDate: 12 June 2023
+description: Settings and plug ins
+tags: ["neovim", "markdown"]
+draft: true
+---
+#### Markdown Preview plugin
+TODO
+
+#### Text Wrapping
+note to self:
+- I talk about editing markdown and text wrapping in my astro nvim post also
+- ^ refering to `vim.opt.wrap` and `vim.opt.sidescroll`
+
+#### Autocommand to set wrap true
+some comments
+```lua
+local markdown_bufenter_augroup = vim.api.nvim_create_augroup("MarkdownTextWrapping", {})
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+	group = markdown_bufenter_augroup,
+	callback = function(opts)
+		local filetype = vim.bo[opts.buf].filetype
+		if filetype == "markdown" or filetype == "markdown.mdx" then
+			vim.opt.wrap = true
+		end
+	end,
+})
+
+local markdown_bufleave_augroup = vim.api.nvim_create_augroup("LeaveMarkdownRemoveWrapping", {})
+vim.api.nvim_create_autocmd({ "BufLeave", "BufWinLeave" }, {
+	group = markdown_bufleave_augroup,
+	callback = function(opts)
+		local filetype = vim.bo[opts.buf].filetype
+		if filetype ~= "markdown" or filetype ~= "markdown.mdx" then
+			vim.opt.wrap = false
+		end
+	end,
+})
+```
