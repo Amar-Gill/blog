@@ -2,26 +2,24 @@
 layout: "@/layouts/BlogPost"
 title: Setting up Neovim for Astro development
 publishDate: January 16, 2023
-description: The settings and plug ins I use to build Astro websites
+description: The settings and plugins I use to build Astro websites.
 tags: ["astro", "neovim"]
 draft: true
 ---
 
 #### TLDR
-It's January 2023, and I have these configuration options and plug ins to use Neovim for developing with the Astro framework:
-- `astro` LSP server, available in [nvim-lsp-config]() plugin and [mason]()
-- [astro-treesitter-grammar]() for syntax highlighting of `.astro` files
-- [this-plugin]() for syntax highlighting of `.mdx` files
-- I use the document formatter provided by the Astro LSP, and *not* the [prettierd]() built in formatting source available in [`null-ls`]() plugin
-  - continue reading to learn why, though this may change in the future
+- The `astro` [LSP server](https://github.com/withastro/language-tools/tree/main/packages/language-server) can be installed with [mason](https://github.com/williamboman/mason.nvim) and set up through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) plugin 
+- For syntax highlighting of `.astro` files, the [tree-sitter-astro](https://github.com/virchau13/tree-sitter-astro) grammar is available through the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugin
+- [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js) plugin for syntax highlighting of `.mdx` files
+- I use the document formatter provided by the Astro LSP, and *not* the [prettierd](https://github.com/fsouza/prettierd) built in formatting source available through the [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#prettierd) plugin. [Why](#formatting)?
 
 #### Basics
-The bare minimum I require is an LSP server and syntax highlighting. This is supported well in Neovim through the [astro]() LSP available in [nvim-lsp-configs]() plug ins and [TreeSitter]() grammar for Astro.
+To get started we need an LSP server and syntax highlighting of `.astro` files. Neovim supports this through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) and [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugins.
 
-#### Mdx Syntax Highlighting
-After setting up the basics, I noticed `.mdx` files were not being highlighted at all, despite having the [markdown]() tree sitter grammar installed. I searched around and couldn't find a tree-sitter grammar for `.mdx` files, but there was a neovim plug in that I could install instead: [link-to-plugin]().
+#### MDX Syntax Highlighting
+I noticed `.mdx` files were not being highlighted at all, despite having the tree-sitter grammar for [markdown](https://github.com/MDeiml/tree-sitter-markdown) installed. I couldn't find a tree-sitter grammar for `.mdx` files, but there was a neovim plug in that I could install instead: [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js).
 
-I'm really happy with this plugin so far. It provides correct syntax highlighting of frontmatter which is `yaml` for `mdx` files, and inline code blocks of most languages I write about.
+I'm really happy with this plugin so far. It provides correct syntax highlighting of frontmatter which is `.yaml` format for `.mdx` files. It also highlights code blocks of all the languages I write about.
 
 #### Formatting
 Consistent and fast formatting is non-negotiable for me. Being a JavaScript framework, many of the [astro templates]() I looked at had [prettier]() and [eslint]() configured. Great! My configuration is already working with React so Astro should not be too different.
