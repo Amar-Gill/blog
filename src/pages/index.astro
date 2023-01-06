@@ -7,7 +7,9 @@ import type { Post } from "@/data/posts";
 
 const MAX_POSTS = 10;
 const allPosts = await Astro.glob<Post>("./posts/*.mdx");
-const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
+const nonDraftPosts = allPosts.filter((post) => !post.frontmatter.draft);
+const postsToShow = import.meta.env.PROD ? nonDraftPosts : allPosts;
+const postsToShowByDate = sortMDByDate(postsToShow).slice(0, MAX_POSTS);
 ---
 
 <PageLayout meta={{ title: "Home" }}>
@@ -23,7 +25,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS);
 		<h2 class="title mb-4 text-xl">Posts</h2>
 		<ul class="space-y-4 sm:space-y-2">
 			{
-				allPostsByDate.map((p) => (
+				postsToShowByDate.map((p) => (
 					<li class="flex flex-wrap items-center gap-x-2 [&_q]:w-full">
 						<PostPreview post={p} as="h2" />
 					</li>
