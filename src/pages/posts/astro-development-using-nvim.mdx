@@ -8,24 +8,24 @@ draft: false
 ---
 
 #### TLDR
-- The `astro` [LSP server](https://github.com/withastro/language-tools/tree/main/packages/language-server) can be installed with [mason](https://github.com/williamboman/mason.nvim) and set up through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) plugin 
+- The `astro` [language server](https://github.com/withastro/language-tools/tree/main/packages/language-server) can be installed with [mason](https://github.com/williamboman/mason.nvim) and set up through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) plugin 
 - For syntax highlighting of `.astro` files, the [tree-sitter-astro](https://github.com/virchau13/tree-sitter-astro) grammar is available through the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugin
 - [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js) plugin for syntax highlighting of `.mdx` files
-- I use the document formatter provided by the Astro LSP, and *not* the [prettierd](https://github.com/fsouza/prettierd) built in formatting source available through the [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#prettierd) plugin. [Why](#formatting)?
+- I use the document formatter provided by the Astro language server, and *not* the [prettierd](https://github.com/fsouza/prettierd) built in formatting source via [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#prettierd). [Why](#formatting)?
 - Look into the `wrap` and `sidescroll` options to control how you want to work with lines that trail off the screen
 
 #### Basics
-To get started we need an LSP server and syntax highlighting of `.astro` files. Neovim supports this through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) and [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugins.
+To get started we need LSP support and syntax highlighting for `.astro` files. Neovim supports this through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) and [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugins.
 
 #### MDX Syntax Highlighting
 I noticed `.mdx` files were not being highlighted at all, despite having the tree-sitter grammar for [markdown](https://github.com/MDeiml/tree-sitter-markdown) installed. I couldn't find a tree-sitter grammar for `.mdx` files, but there was a neovim plug in that I could install instead: [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js).
 
-I'm really happy with this plugin so far. It provides syntax highlighting of frontmatter which is in `.yaml` format. And it correctly highlights code blocks of all the programming languages I write about.
+I'm really happy with this plugin so far. It provides syntax highlighting of frontmatter which is in `.yaml` format. And it correctly highlights code blocks for all the programming languages I write about.
 
 #### Formatting
 Consistent and fast formatting is non-negotiable for me. Being a JavaScript framework, many of the [astro themes](https://astro.build/themes/) I looked at had [prettier](https://prettier.io/) and [eslint](https://eslint.org/) configured. Great! My configuration works with React so Astro should not be too different.
 
-After testing it out on a project, I noticed the formatter was not working. Running the `:LspInfo` nvim command showed that the `null-ls` server was not attached to the buffer.
+After testing it out on a project, I noticed the formatter was not working. Running the `:LspInfo` nvim command revealed that the `null-ls` server was not attached to the buffer.
 
 Looking at the [prettierd](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#prettierd) default arguments, the `.astro` filetype was not included. So I added it as an [extra_filetype](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTIN_CONFIG.md#filetypes):
 
@@ -42,9 +42,9 @@ local sources = {
 
 Now I was able to get the `null-ls` server attached to the `astro` buffer, but the formatter was still not working.
 
-I then looked into the [Astro VS Code Extension](https://marketplace.visualstudio.com/items?itemName=astro-build.astro-vscode) which is officially maintained by the Astro team. I learned that the formatting is included in the LSP itself.
+I then looked into the [Astro VS Code Extension](https://marketplace.visualstudio.com/items?itemName=astro-build.astro-vscode) which is officially maintained by the Astro team. I learned that the formatting is included in the language server itself.
 
-So instead I need to update my LSP formatting handler to use both `null-ls` and `astro` LSP servers. Until now it had only been `null-ls`:
+So instead I need to update my LSP formatting handler to use both the `null-ls` and `astro` language servers. Until now it had only been `null-ls`:
 
 ```lua
 local lsp_formatting = function(bufnr)
