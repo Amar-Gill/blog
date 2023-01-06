@@ -31,7 +31,16 @@ After testing it out on a project, I noticed the formatter was not working. Runn
 Looking at the [prettierd]() default arguments, the `astro` filetype was not included. So I added it as an `extra_filetype`:
 
 ```lua
-require("null-ls").builtin.prettierd.with({ extra_filetypes = { "astro" }})
+local null_ls = require("null-ls")
+local formatting = null_ls.builtins.formatting
+
+null_ls.setup({
+  sources = {
+    formatting.prettierd.with({
+      extra_filetypes = { "astro" }
+    })
+  }
+})
 ```
 
 Now I was able to get the `null-ls` server attached to the `astro` buffer, but the formatting was still not happening.
@@ -42,12 +51,13 @@ So instead I need to update my LSP formatting handler to use both `null-ls` and 
 
 ```lua
 local lsp_formatting = function(bufnr)
-	vim.lsp.buf.format({
-		filter = function(client)
-			return client.name == "null-ls" or client.name == "astro"
-		end,
-		bufnr = bufnr,
-	})
+  vim.lsp.buf.format({
+    filter = function(client)
+      local name = client.name
+      return name == "null-ls" or name == "astro"
+    end,
+    bufnr = bufnr,
+  })
 end
 ```
 
