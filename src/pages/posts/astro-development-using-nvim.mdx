@@ -22,28 +22,26 @@ I noticed `.mdx` files were not being highlighted at all, despite having the tre
 I'm really happy with this plugin so far. It provides correct syntax highlighting of frontmatter which is `.yaml` format for `.mdx` files. It also highlights code blocks of all the languages I write about.
 
 #### Formatting
-Consistent and fast formatting is non-negotiable for me. Being a JavaScript framework, many of the [astro templates]() I looked at had [prettier]() and [eslint]() configured. Great! My configuration is already working with React so Astro should not be too different.
+Consistent and fast formatting is non-negotiable for me. Being a JavaScript framework, many of the [astro themes](https://astro.build/themes/) I looked at had [prettier](https://prettier.io/) and [eslint](https://eslint.org/) configured. Great! My configuration works with React so Astro should not be too different.
 
-After testing it out on a project, I noticed the formatter was not working. Running `:LspInfo` nvim command showed that `null-ls` server was not attached to the buffer.
+After testing it out on a project, I noticed the formatter was not working. Running the `:LspInfo` nvim command showed that the `null-ls` server was not attached to the buffer.
 
-Looking at the [prettierd]() default arguments, the `astro` filetype was not included. So I added it as an `extra_filetype`:
+Looking at the [prettierd](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#prettierd) default arguments, the `.astro` filetype was not included. So I added it as an [extra_filetype](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTIN_CONFIG.md#filetypes):
 
 ```lua
 local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
 
-null_ls.setup({
-  sources = {
-    formatting.prettierd.with({
-      extra_filetypes = { "astro" }
-    })
-  }
-})
+local sources = {
+  formatting.prettierd.with({
+    extra_filetypes = { "astro" },
+  }),
+}
 ```
 
-Now I was able to get the `null-ls` server attached to the `astro` buffer, but the formatting was still not happening.
+Now I was able to get the `null-ls` server attached to the `astro` buffer, but the formatter was still not working.
 
-After reading into the [vs-code-astro-plugin]() I learned that the formatting is included in the LSP itself.
+I then looked into the [Astro VS Code Extension](https://marketplace.visualstudio.com/items?itemName=astro-build.astro-vscode) which is officially maintained by the Astro team. I learned that the formatting is included in the LSP itself.
 
 So instead I need to update my LSP formatting handler to use both `null-ls` and `astro` LSP servers. Until now it had only been `null-ls`:
 
@@ -58,5 +56,3 @@ local lsp_formatting = function(bufnr)
   })
 end
 ```
-
-I'm still curious why formatting doesn't work even after including `astro` filetype for Prettierd. But whether I use `null-ls` or the Astro LSP server, it was a one-line change to get the formatter working.
