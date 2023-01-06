@@ -12,6 +12,7 @@ draft: false
 - For syntax highlighting of `.astro` files, the [tree-sitter-astro](https://github.com/virchau13/tree-sitter-astro) grammar is available through the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugin
 - [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js) plugin for syntax highlighting of `.mdx` files
 - I use the document formatter provided by the Astro LSP, and *not* the [prettierd](https://github.com/fsouza/prettierd) built in formatting source available through the [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#prettierd) plugin. [Why](#formatting)?
+- Look into the `wrap` and `sidescroll` options to control how you want to work with lines that trail off the screen
 
 #### Basics
 To get started we need an LSP server and syntax highlighting of `.astro` files. Neovim supports this through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) and [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugins.
@@ -55,4 +56,14 @@ local lsp_formatting = function(bufnr)
     bufnr = bufnr,
   })
 end
+```
+
+#### Editing Markdown in Neovim
+Markdown files usually contain long lines that will trail off the screen if you don't enable text wrapping. If you want to keep text wrapping off, you can modify the `sidescroll` option. It controls the minimum number of columns to scroll horizontally when the `wrap` option is off and the cursor moves off the screen.
+
+The default amount is 1. You can try setting it to 5 which will move the cursor back by 5 columns as you write. Setting the option to 0 will move the cursor to the middle which you may prefer instead:
+
+```lua
+vim.opt.wrap = false
+vim.opt.sidescroll = 0 | 1 | 5
 ```
