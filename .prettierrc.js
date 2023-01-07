@@ -4,10 +4,10 @@ module.exports = {
 	semi: true,
 	singleQuote: false,
 	tabWidth: 2,
-	useTabs: true,
+	useTabs: false,
 	plugins: [
-		require("prettier-plugin-astro"),
-		require("prettier-plugin-tailwindcss") /* Must come last */,
+		require.resolve("prettier-plugin-astro"),
+		require.resolve("prettier-plugin-tailwindcss") /* Must come last */,
 	],
 	pluginSearchDirs: false,
 	overrides: [
