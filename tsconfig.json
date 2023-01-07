@@ -3,35 +3,16 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/components/*": [
-        "src/components/*.astro"
-      ],
-      "@/layouts/*": [
-        "src/layouts/*.astro"
-      ],
-      "@/utils": [
-        "src/utils/index.ts"
-      ],
-      "@/stores/*": [
-        "src/stores/*"
-      ],
-      "@/data/*": [
-        "src/data/*"
-      ],
-      "@/site-config": [
-        "src/site.config.ts"
-      ]
+      "@/components/*": ["src/components/*.astro"],
+      "@/layouts/*": ["src/layouts/*.astro"],
+      "@/utils": ["src/utils/index.ts"],
+      "@/stores/*": ["src/stores/*"],
+      "@/data/*": ["src/data/*"],
+      "@/site-config": ["src/site.config.ts"]
     },
-    "types": [
-      "@astrojs/image/client"
-    ],
+    "types": ["@astrojs/image/client"],
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*",
-    ".vscode",
-    "dist"
-  ]
+  "exclude": ["node_modules", "**/node_modules/*", ".vscode", "dist"]
 }

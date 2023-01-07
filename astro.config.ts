@@ -13,14 +13,22 @@ export default defineConfig({
   markdown: {
     shikiConfig: {
       theme: "dracula",
-      wrap: true
-    }
+      wrap: true,
+    },
   },
-  integrations: [mdx({}), tailwind({
-    config: {
-      applyBaseStyles: false
-    }
-  }), image({
-    serviceEntryPoint: "@astrojs/image/sharp"
-  }), sitemap(), prefetch(), svelte(), react()]
+  integrations: [
+    mdx({}),
+    tailwind({
+      config: {
+        applyBaseStyles: false,
+      },
+    }),
+    image({
+      serviceEntryPoint: "@astrojs/image/sharp",
+    }),
+    sitemap(),
+    prefetch(),
+    svelte(),
+    react(),
+  ],
 });

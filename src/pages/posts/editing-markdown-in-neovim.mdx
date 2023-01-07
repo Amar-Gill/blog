@@ -6,16 +6,22 @@ description: Settings and plug ins
 tags: ["neovim", "markdown"]
 draft: true
 ---
+
 #### Markdown Preview plugin
+
 TODO
 
 #### Text Wrapping
+
 note to self:
+
 - I talk about editing markdown and text wrapping in my astro nvim post also
 - ^ refering to `vim.opt.wrap` and `vim.opt.sidescroll`
 
 #### Autocommand to set wrap true
+
 some comments
+
 ```lua
 local markdown_bufenter_augroup = vim.api.nvim_create_augroup("MarkdownTextWrapping", {})
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
