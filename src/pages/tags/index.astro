@@ -4,7 +4,9 @@ import { getUniqueTagsWithCount } from "@/utils";
 import type { Post } from "@/data/posts";
 
 const allPosts = await Astro.glob<Post>("../posts/*.mdx");
-const allTags = getUniqueTagsWithCount(allPosts);
+const nonDraftPosts = allPosts.filter((post) => !post.frontmatter.draft);
+const postsToShow = import.meta.env.PROD ? nonDraftPosts : allPosts;
+const allTags = getUniqueTagsWithCount(postsToShow);
 
 const meta = {
 	title: "All Tags",
