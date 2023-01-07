@@ -6,6 +6,9 @@ description: Create a map with custom control widgets in a React map using React
 tags: ["react", "leaflet", "gis"]
 draft: true
 ---
+
+import LeafletMap from 'src/components/LeafletMap.astro'
+
 #### TLDR
 how to create a custom control element and add it to a leaflet map in a react app
 
@@ -20,7 +23,7 @@ Let's add a standard map to our React app using the `react-leaflet` package.
 
 ```bash
 npm i leaflet react-leaflet
-npm i @types/leaflet # optional
+npm i -D @types/leaflet # optional
 ```
 
 The [react-leaflet docs]() instruct us to follow the standard set up for a vanilla web project before using the React bindings provided by the package. The set up involves importing the stylesheet for the map ui:
@@ -66,6 +69,8 @@ Like the leaflet docs mentioned, the map container needs to be given an explicit
   height: 100vh;
 }
 ```
+
+<LeafletMap />
 
 ### Creating our Custom Control
 Before we make the interactive control element, let's see how to add an arbitrary html element as a control overlay to the leaflet map instance. A leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods:
