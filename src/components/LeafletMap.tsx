@@ -1,14 +1,17 @@
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import { AddressSearch } from "./LeafletAddressSearch";
 import { LeafletCustomControl } from "./LeafletCustomControl";
 
 type LeafletMapProps = {
   showStaticMarker: boolean;
   showBasicControl: boolean;
+  showAddressSearch: boolean;
 };
 
 const LeafletMap: React.FC<LeafletMapProps> = ({
   showStaticMarker = false,
   showBasicControl = false,
+  showAddressSearch = false,
 }) => {
   return (
     <MapContainer className="h-80" center={[51.505, -0.09]} zoom={13} scrollWheelZoom={false}>
@@ -24,6 +27,7 @@ const LeafletMap: React.FC<LeafletMapProps> = ({
         </Marker>
       )}
       {showBasicControl && <LeafletCustomControl />}
+      {showAddressSearch && <AddressSearch />}
     </MapContainer>
   );
 };

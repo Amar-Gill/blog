@@ -2,14 +2,21 @@
 interface Props {
   showStaticMarker?: boolean;
   showBasicControl?: boolean;
+  showAddressSearch?: boolean;
 }
 
-const { showStaticMarker = false, showBasicControl = false } = Astro.props;
+const {
+  showStaticMarker = false,
+  showBasicControl = false,
+  showAddressSearch = false,
+} = Astro.props;
+
 import LeafletMap from "./LeafletMap";
 ---
 
 <LeafletMap
   showStaticMarker={showStaticMarker}
   showBasicControl={showBasicControl}
+  showAddressSearch={showAddressSearch}
   client:only="react"
 />
