@@ -8,6 +8,7 @@ specifiers:
   '@astrojs/sitemap': ^1.0.0
   '@astrojs/svelte': ^1.0.2
   '@astrojs/tailwind': ^2.1.2
+  '@geoapify/geocoder-autocomplete': ^1.5.1
   '@tailwindcss/aspect-ratio': ^0.4.2
   '@tailwindcss/line-clamp': ^0.4.2
   '@tailwindcss/typography': ^0.5.8
@@ -50,6 +51,7 @@ specifiers:
 
 dependencies:
   '@astrojs/prefetch': 0.1.1
+  '@geoapify/geocoder-autocomplete': 1.5.1
   d3-scale: 4.0.2
   leaflet: 1.9.3
   react-leaflet: 4.2.0_yydtlhsdonbqao6vgvkwhv2zki
@@ -637,6 +639,10 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@geoapify/geocoder-autocomplete/1.5.1:
+    resolution: {integrity: sha512-/zU/IwW7f8EHZsdwl4Rm8wN42VlsZYtOvMDqijz0ZNMfeaBtIizMNI3/NfToj6k7b84b/o8GlCa9puaFwmPzSQ==}
+    dev: false
 
   /@humanwhocodes/config-array/0.11.7:
     resolution: {integrity: sha512-kBbPWzN8oVMLb0hOUYXhmxggL/1cJE6ydvjDIGi9EnAGUyA7cLVKQg+d/Dsm+KZwx2czGHrCmMVLiyg8s5JPKw==}
