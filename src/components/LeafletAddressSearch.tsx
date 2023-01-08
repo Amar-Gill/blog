@@ -24,7 +24,7 @@ export const AddressSearch = () => {
           e.stopPropagation();
         });
 
-        const autocomplete = new GeocoderAutocomplete(el, `${42069}`, {
+        const autocomplete = new GeocoderAutocomplete(el, import.meta.env.PUBLIC_GEOAPIFY_API_KEY, {
           placeholder: "Enter an address",
         });
 
