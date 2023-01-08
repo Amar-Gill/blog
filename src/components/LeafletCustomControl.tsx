@@ -15,7 +15,7 @@ export const LeafletCustomControl = () => {
       el.className = "h-16 w-16 bg-pink-600";
 
       el.onclick = function () {
-        alert("hello world");
+        alert("Hello from a custom Leaflet control!");
       };
 
       return el;

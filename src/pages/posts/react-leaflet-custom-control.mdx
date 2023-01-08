@@ -4,7 +4,7 @@ title: Custom Controls in a React Leaflet map
 publishDate: 13 May 2023
 description: Create a map with custom control widgets in a React map using React Leaflet
 tags: ["react", "leaflet", "gis"]
-draft: true
+draft: false
 ---
 
 import LeafletMap from "src/components/LeafletMap.astro";
@@ -63,7 +63,7 @@ This gives us a basic leaflet map centered on London, England. It comes with a z
 
 Make sure to set a height on the component. In this example I styled it with Tailwind CSS: `classname="h-80"`.
 
-<LeafletMap />
+<LeafletMap showStaticMarker={true} />
 
 ### Creating our Custom Control
 
@@ -84,10 +84,10 @@ export const AddressSearch = () => {
     onAdd: function (map: Map) {
       const el = DomUtil.create("div");
 
-      el.className = "basic-control";
+      el.className = "h-16 w-16 bg-pink-600";
 
       el.onclick = function () {
-        alert("hello world");
+        alert("Hello from a custom Leaflet control");
       };
 
       return el;
@@ -129,6 +129,7 @@ The `<AddressSearch />` component can then be added as a child of the Leaflet `<
   <AddressSearch />
 </MapContainer>
 ```
+<LeafletMap showBasicControl={true}/>
 
 ### The Geoapify Address Search
 

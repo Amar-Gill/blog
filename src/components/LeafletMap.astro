@@ -1,5 +1,15 @@
 ---
+interface Props {
+  showStaticMarker?: boolean;
+  showBasicControl?: boolean;
+}
+
+const { showStaticMarker = false, showBasicControl = false } = Astro.props;
 import LeafletMap from "./LeafletMap";
 ---
 
-<LeafletMap client:only="react" />
+<LeafletMap
+  showStaticMarker={showStaticMarker}
+  showBasicControl={showBasicControl}
+  client:only="react"
+/>
