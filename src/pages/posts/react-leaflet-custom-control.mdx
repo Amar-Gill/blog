@@ -21,7 +21,7 @@ Let's add a standard map to our React app using the `react-leaflet` package. Beg
 
 ```bash
 npm i leaflet react-leaflet
-npm i -D @types/leaflet
+npm i -D @types/leaflet @types/react-leaflet
 ```
 
 We require the css for the leaflet package to be loaded. Add this `<link>` tag to the `<head>` of your page:
@@ -38,6 +38,7 @@ We require the css for the leaflet package to be loaded. Add this `<link>` tag t
 With that in place let's create a basic `Map.tsx` component:
 
 ```tsx
+// Map.tsx
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 const Map = () => {
@@ -67,69 +68,61 @@ Make sure to set a height on the component. In this example I styled it with Tai
 
 ### Creating our Custom Control
 
-Now let's see how to add an arbitrary html element as a control overlay to the leaflet map instance. A leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods:
+Now lets add an arbitrary html element as a control overlay to the leaflet map instance. A leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods. The `Control.extend` method returns a class that implements the leaflet `Control` type:
 
 ```tsx
+// CustomControl.tsx
 import { Control, DomUtil } from "leaflet";
 import { useMap } from "react-leaflet";
 import { useEffect } from "react";
 
-export const AddressSearch = () => {
+export const LeafletCustomControl = () => {
   const mapContainer = useMap();
 
-  const SearchControl = Control.extend({
+  const CustomControl = Control.extend({
     options: {
       position: "topright",
     },
-    onAdd: function (map: Map) {
+    onAdd: function () {
       const el = DomUtil.create("div");
 
       el.className = "h-16 w-16 bg-pink-600";
 
       el.onclick = function () {
-        alert("Hello from a custom Leaflet control");
+        alert("Hello from a custom Leaflet control!");
       };
 
       return el;
     },
-    onRemove: function (map: Map) {
+    onRemove: function () {
       return;
     },
   });
 
-  const searchControl = new SearchControl();
+  const customControl = new CustomControl();
 
   useEffect(() => {
-    mapContainer.addControl(searchControl);
+    mapContainer.addControl(customControl);
   }, []);
 
   return null;
 };
 ```
 
-With the `basic-control` css class defined as below, we will see a blue square in the top right corner of the map.
-
-```css
-.basic-control {
-  height: 30px;
-  width: 30px;
-  background-color: aqua;
-}
-```
-
-Here is the core concept on adding custom leaflet controls in React. The `Control.extend` method returns a class that implements the leaflet `Control` type. We instantiate an instance of the new control, and through the `useEffect` hook, we add the control with the `addControl` method on the `mapContainer` that is exposed through the `useMap` hook. The component itself then returns `null`.
-
-Inside the options of the `Control.extend` method, we show a trivial example of how to add a simple `<div>`. Leaflet has a built in `DomUtil.create` function, which takes in a string representing an html tag name. Through `el.className` We give it the `.basic-control` css class so we can visualize it. With `el.onclick` we can add an arbitrary event listener to the element. The element returned from the `onAdd` method will be the html element used for the control, with whatever styles and event listeners you add.
-
-The `<AddressSearch />` component can then be added as a child of the Leaflet `<MapContainer>` component inside `Map.tsx`. This is handy so all control functionality remains encapsulated inside the Map component, and more importantly, the ui element will be rendered on top of the map tiles, which makes for an intuitive map control ux.
+With some basic css styling, we will see a pink square in the top right corner of the map, with a click event handler. Add it as a child component of `<MapContainer>` to see the custom control element:
 
 ```tsx
+// Map.tsx
 <MapContainer>
   <TileLayer />
-  <AddressSearch />
+  <CustomControl />
 </MapContainer>
 ```
 <LeafletMap showBasicControl={true}/>
+
+Here is the core concept on adding custom leaflet controls in React. The `useMap` hook returns the `<MapContainer>` reference of the child component. We instantiate an instance of our custom control and use the `addControl` method to add it as a control inside a `useEffect` hook. The React component itself returns `null`.
+
+This is handy so all control functionality remains encapsulated inside the `Map.tsx` component. More importantly, the ui element will be rendered on top of the map tiles, which makes for an intuitive map control ux.
 
 ### The Geoapify Address Search
 
