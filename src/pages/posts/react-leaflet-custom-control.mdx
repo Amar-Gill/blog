@@ -11,24 +11,20 @@ import LeafletMap from "src/components/LeafletMap.astro";
 
 #### TLDR
 
-how to create a custom control element and add it to a leaflet map in a react app
-
-Leaflet is a great package to easily integrate map and GIS functionality into your web application. Bonus points for being open source so you don't need to rely on Google Maps.
-
-The goal of this article is to add a custom address search control component inside the leaflet map container. I emphasize inside, because the only way to render UI elements on top of the map tiles is to use the Leaflet controls API.
-
-This article is focused on creating a custom control for the React flavour of Leaflet. There are plenty of articles on the web building custom leaflet controls using Vanilla JS.
+TODO
+- link to leaflet package
+- link to react-leaflet package
 
 ### Getting Started
 
-Let's add a standard map to our React app using the `react-leaflet` package.
+Let's add a standard map to our React app using the `react-leaflet` package. Begin by adding the dependencies to your React app.
 
 ```bash
 npm i leaflet react-leaflet
-npm i -D @types/leaflet # optional
+npm i -D @types/leaflet
 ```
 
-The [react-leaflet docs]() instruct us to follow the standard set up for a vanilla web project before using the React bindings provided by the package. The set up involves importing the stylesheet for the map ui:
+We require the css for the leaflet package to be loaded. Add this `<link>` tag to the `<head>` of your page:
 
 ```tsx
 <link
@@ -39,18 +35,23 @@ The [react-leaflet docs]() instruct us to follow the standard set up for a vanil
 />
 ```
 
-With that in place let's create a `Map.tsx` component:
+With that in place let's create a basic `Map.tsx` component:
 
 ```tsx
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 const Map = () => {
   return (
-    <MapContainer id="map" center={[51.505, -0.09]} zoom={13}>
+    <MapContainer className="h-80" center={[51.505, -0.09]} zoom={13}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <Marker position={[51.505, -0.09]}>
+        <Popup>
+          A pretty CSS3 popup. <br /> Easily customizable.
+        </Popup>
+      </Marker>
     </MapContainer>
   );
 };
@@ -58,21 +59,15 @@ const Map = () => {
 export default Map;
 ```
 
-This gives us a basic leaflet map centered on London, England. It has a zoom control and click and drag functionality set up by default.
+This gives us a basic leaflet map centered on London, England. It comes with a zoom control element and click and drag functionality. We also added a map marker that displays a pop up when clicked.
 
-Like the leaflet docs mentioned, the map container needs to be given an explicit height. For the react-leaflet example, we can apply the style on the `<MapContainer>` component itself. By giving the component an id of `map`, we can make the following css rule:
-
-```css
-#map {
-  height: 100vh;
-}
-```
+Make sure to set a height on the component. In this example I styled it with Tailwind CSS: `classname="h-80"`.
 
 <LeafletMap />
 
 ### Creating our Custom Control
 
-Before we make the interactive control element, let's see how to add an arbitrary html element as a control overlay to the leaflet map instance. A leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods:
+Now let's see how to add an arbitrary html element as a control overlay to the leaflet map instance. A leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods:
 
 ```tsx
 import { Control, DomUtil } from "leaflet";
