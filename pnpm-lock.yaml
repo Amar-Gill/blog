@@ -17,6 +17,7 @@ specifiers:
   '@types/prettier': ^2.7.1
   '@types/react': ^18.0.21
   '@types/react-dom': ^18.0.6
+  '@types/react-leaflet': ^2.8.2
   '@typescript-eslint/eslint-plugin': ^5.43.0
   '@typescript-eslint/parser': ^5.43.0
   astro: 1.6.10
@@ -70,6 +71,7 @@ devDependencies:
   '@types/prettier': 2.7.1
   '@types/react': 18.0.26
   '@types/react-dom': 18.0.10
+  '@types/react-leaflet': 2.8.2
   '@typescript-eslint/eslint-plugin': 5.44.0_fnsv2sbzcckq65bwfk7a5xwslu
   '@typescript-eslint/parser': 5.44.0_hsf322ms6xhhd4b5ne6lb74y4a
   astro: 1.6.10
@@ -1015,6 +1017,13 @@ packages:
   /@types/react-dom/18.0.10:
     resolution: {integrity: sha512-E42GW/JA4Qv15wQdqJq8DL4JhNpB3prJgjgapN3qJT9K2zO5IIAQh4VXvCEDupoqAwnz0cY4RlXeC/ajX5SFHg==}
     dependencies:
+      '@types/react': 18.0.26
+    dev: true
+
+  /@types/react-leaflet/2.8.2:
+    resolution: {integrity: sha512-Iel8Vd1bSCD38Yhiqcmm/+9hjPEdd39LFE3tBMbOytq3QAQsC3LDrbo6ifoh8JbpqPbCsQPo9Wx5OELHixEShg==}
+    dependencies:
+      '@types/leaflet': 1.9.0
       '@types/react': 18.0.26
     dev: true
 
