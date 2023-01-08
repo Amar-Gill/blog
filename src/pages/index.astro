@@ -13,69 +13,69 @@ const postsToShowByDate = sortMDByDate(postsToShow).slice(0, MAX_POSTS);
 ---
 
 <PageLayout meta={{ title: "Home" }}>
-	<section>
-		<h1 class="title mb-6">Hello World!</h1>
-		<p class="mb-4">
-			Welcome to my personal web page and blog. I use this platform to journal about my learnings as
-			a web developer and other topics.
-		</p>
-		<SocialList />
-	</section>
-	<section aria-label="Blog post list" class="mt-16">
-		<h2 class="title mb-4 text-xl">Posts</h2>
-		<ul class="space-y-4 sm:space-y-2">
-			{
-				postsToShowByDate.map((p) => (
-					<li class="flex flex-wrap items-center gap-x-2 [&_q]:w-full">
-						<PostPreview post={p} as="h2" />
-					</li>
-				))
-			}
-		</ul>
-	</section>
-	<section class="mt-16">
-		<h2 class="title mb-4 text-xl">Technologies</h2>
-		<ul class="space-y-4 sm:space-y-2">
-			<li>
-				<a
-					href="https://neovim.io/"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="cactus-link inline-block"
-					>Neovim
-				</a>:
-				<p class="inline-block sm:mt-2">Hyperextensible Vim-based text editor</p>
-			</li>
-			<li>
-				<a
-					href="https://obsidian.md/"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="cactus-link inline-block"
-					>Obsidian
-				</a>:
-				<p class="inline-block sm:mt-2">A second brain, for you, forever</p>
-			</li>
-			<li>
-				<a
-					href="https://modedesigns.com/collections/keyboards/products/sixtyfive"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="cactus-link inline-block"
-					>Mode SixtyFive
-				</a>:
-				<p class="inline-block sm:mt-2">A premium metal rectangle for a budget price</p>
-			</li>
-			<li>
-				<a
-					href="https://github.com/Amar-Gill/dotfiles"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="cactus-link inline-block"
-					>Dotfiles
-				</a>:
-				<p class="inline-block sm:mt-2">Featuring Neovim and a minimal zsh config</p>
-			</li>
-		</ul>
-	</section>
+  <section>
+    <h1 class="title mb-6">Hello World!</h1>
+    <p class="mb-4">
+      Welcome to my personal web page and blog. I use this platform to journal about my learnings as
+      a web developer and other topics.
+    </p>
+    <SocialList />
+  </section>
+  <section aria-label="Blog post list" class="mt-16">
+    <h2 class="title mb-4 text-xl">Posts</h2>
+    <ul class="space-y-4 sm:space-y-2">
+      {
+        postsToShowByDate.map((p) => (
+          <li class="flex flex-wrap items-center gap-x-2 [&_q]:w-full">
+            <PostPreview post={p} as="h2" />
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  <section class="mt-16">
+    <h2 class="title mb-4 text-xl">Technologies</h2>
+    <ul class="space-y-4 sm:space-y-2">
+      <li>
+        <a
+          href="https://neovim.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cactus-link inline-block"
+          >Neovim
+        </a>:
+        <p class="inline-block sm:mt-2">Hyperextensible Vim-based text editor</p>
+      </li>
+      <li>
+        <a
+          href="https://obsidian.md/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cactus-link inline-block"
+          >Obsidian
+        </a>:
+        <p class="inline-block sm:mt-2">A second brain, for you, forever</p>
+      </li>
+      <li>
+        <a
+          href="https://modedesigns.com/collections/keyboards/products/sixtyfive"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cactus-link inline-block"
+          >Mode SixtyFive
+        </a>:
+        <p class="inline-block sm:mt-2">A premium metal rectangle for a budget price</p>
+      </li>
+      <li>
+        <a
+          href="https://github.com/Amar-Gill/dotfiles"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cactus-link inline-block"
+          >Dotfiles
+        </a>:
+        <p class="inline-block sm:mt-2">Featuring Neovim and a minimal zsh config</p>
+      </li>
+    </ul>
+  </section>
 </PageLayout>

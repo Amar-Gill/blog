@@ -23,7 +23,7 @@ module.exports = {
         extraFileExtensions: [".astro"],
       },
       rules: {
-        "prettier/prettier": "off",
+        "prettier/prettier": "error",
         "import/no-named-as-default-member": "off",
         "import/no-named-as-default": "off",
         "@typescript-eslint/consistent-type-imports": "error",
