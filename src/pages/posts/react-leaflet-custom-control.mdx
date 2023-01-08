@@ -121,11 +121,12 @@ Add it as a child component of `<MapContainer>`. We will see a pink square in th
 <LeafletMap showBasicControl={true}/>
 
 Let's breakdown what is happening:
-- A leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods.
-- The `Control.extend` method returns a class that implements the leaflet `Control` type.
-- The `useMap` hook returns the `<MapContainer>` reference of the child component.
-- We instantiate an instance of our custom control
-- inside a `useEffect` hook we use the `addControl` method to add the instance of our custom control to our `<MapContainer>` reference
+- A Leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods.
+- The `useMap` hook returns the root `<MapContainer>` reference for any of it's child components.
+- The `Control.extend` method returns a class that implements the leaflet `Control` type, and we define the position as `topright`.
+- Within the `onAdd` callback, we create an `HTMLDivElement`, add styles and event handlers to the element, and return it from the function.
+- We instantiate an instance of our custom control.
+- Inside a `useEffect` hook we use the `addControl` method to add the instance of our custom control to our `<MapContainer>` reference.
 - The `CustomControl.tsx` component itself returns `null`.
 
 This is handy so all control functionality remains encapsulated inside the `Map.tsx` component. More importantly, the ui element will be rendered on top of the map tiles, which makes for an intuitive map control ux.
@@ -152,7 +153,7 @@ Import the stylesheet into your `globals.css` file:
 @import "~@geoapify/geocoder-autocomplete/styles/minimal.css";
 ```
 
-Let's modify the `<AddressSearch />` as follows:
+Create an `AddressSearch.tsx` component as follows:
 
 ```tsx
 import { GeocoderAutocomplete } from "@geoapify/geocoder-autocomplete";
@@ -161,13 +162,13 @@ import { useMap } from "react-leaflet";
 import { useEffect } from "react";
 
 export const AddressSearch = () => {
-  const mapContainer = useMap();
+  const map = useMap();
 
   const SearchControl = Control.extend({
     options: {
       position: "topright",
     },
-    onAdd: function (map: Map) {
+    onAdd: function () {
       const el = DomUtil.create("div");
 
       el.className = "relative minimal";
@@ -180,16 +181,15 @@ export const AddressSearch = () => {
         e.stopPropagation();
       });
 
-      const autocomplete = new GeocoderAutocomplete(el, `${process.env.NEXT_PUBLIC_GEOAPIFY}`, {
-        placeholder: "Enter an address",
-      });
+      const autocomplete = new GeocoderAutocomplete(
+        el,
+        "API_KEY",
+        { placeholder: "Enter an address" },
+      );
 
       autocomplete.on("select", (location) => {
-        map.setView(newPosition, map.getZoom());
-      });
-
-      autocomplete.on("suggestions", (suggestions) => {
-        return;
+        const { lat, lon } = location.properties;
+        map.setView({ lat, lng: lon }, map.getZoom());
       });
 
       return el;
@@ -202,7 +202,7 @@ export const AddressSearch = () => {
   const searchControl = new SearchControl();
 
   useEffect(() => {
-    mapContainer.addControl(searchControl);
+    map.addControl(searchControl);
   }, []);
 
   return null;
@@ -232,14 +232,14 @@ Let's wrap the expensive operations of creating dom elements and adding event li
 
 ```tsx
 export const AddressSearch = () => {
-  const mapContainer = useMap();
+  const map = useMap();
 
   const searchControl = useMemo(() => {
     const SearchControl = Control.extend({
       options: {
         position: "topright",
       },
-      onAdd: function (map: Map) {
+      onAdd: function () {
         const el = DomUtil.create("div");
 
         el.className = "relative minimal round-borders";
@@ -252,31 +252,30 @@ export const AddressSearch = () => {
           e.stopPropagation();
         });
 
-        const autocomplete = new GeocoderAutocomplete(el, `${process.env.NEXT_PUBLIC_GEOAPIFY}`, {
-          placeholder: "Enter an address",
-        });
+        const autocomplete = new GeocoderAutocomplete(
+          el,
+          "API_KEY",
+          { placeholder: "Enter an address" },
+        );
 
         autocomplete.on("select", (location) => {
-          map.setView(newPosition, map.getZoom());
-        });
-
-        autocomplete.on("suggestions", (suggestions) => {
-          return;
+          const { lat, lon } = location.properties;
+          map.setView({ lat, lng: lon }, map.getZoom());
         });
 
         return el;
       },
-      onRemove: function (map: Map) {
+      onRemove: function () {
         return;
       },
     });
 
     return new SearchControl();
-  }, [setPosition]);
+  }, []);
 
   useEffect(() => {
-    mapContainer.addControl(searchControl);
-  }, [mapContainer, searchControl]);
+    map.addControl(searchControl);
+  }, [map, searchControl]);
 
   return null;
 };
