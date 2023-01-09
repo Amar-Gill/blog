@@ -12,7 +12,8 @@ export const LeafletCustomControl = () => {
     onAdd: function () {
       const el = DomUtil.create("div");
 
-      el.className = "h-16 w-16 bg-pink-600";
+      el.className = "h-16 w-16 bg-pink-600 text-white font-bold pt-5 pl-1";
+      el.innerText = "Click me!";
 
       el.onclick = function () {
         alert("Hello from a custom Leaflet control!");
