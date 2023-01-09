@@ -15,14 +15,6 @@ import LeafletMap from "src/components/LeafletMap.astro";
 
 The [react-leaflet](https://react-leaflet.js.org/) package provides React bindings for the Leaflet package. In this post I will demonstrate how to create a custom address search component in a React app using the [react-leaflet](https://react-leaflet.js.org/) package and [geoapify](https://www.geoapify.com/) API.
 
-TODO info box
-At the time of writing, these are the package versions:
-- react
-- react-dom
-- leaflet
-- react-leaflet
-- @geoapify/geocoder-autocomplete
-
 ### Getting Started
 
 Let's add a standard map to our React app using the `react-leaflet` package. Begin by adding the dependencies to your React app.
@@ -31,6 +23,14 @@ Let's add a standard map to our React app using the `react-leaflet` package. Beg
 npm i leaflet react-leaflet
 npm i -D @types/leaflet @types/react-leaflet
 ```
+<aside className="info">
+Package versions used at time of writing:
+- react
+- react-dom
+- leaflet
+- react-leaflet
+- @geoapify/geocoder-autocomplete
+</aside>
 
 We require the css for the leaflet package to be loaded. Add this `<link>` tag to the `<head>` of your page:
 
@@ -216,6 +216,10 @@ export const AddressSearch = () => {
   return null;
 };
 ```
+
+<aside className="caution mb-5">
+Depending on how popular this post is, the Geoapify API free tier might run out of credits. Please use sparingly =]
+</aside>
 <LeafletMap showAddressSearch={true} />
 
 The `GeocoderAutocomplete` class accepts as arguments an html element, the api key, and some optional configurations. That line of code will add the search input element as a child of the parent `<div>` element denoted by `el`.
