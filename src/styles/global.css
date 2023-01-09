@@ -38,7 +38,7 @@
 
 @layer components {
   .caution {
-    @apply rounded-md border-l-4 border-solid border-l-yellow-700 bg-yellow-600/10 p-4;
+    @apply rounded-md border-l-4 border-solid border-l-yellow-600 bg-yellow-600/10 p-4;
   }
 
   .dark .caution {
