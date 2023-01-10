@@ -1,8 +1,8 @@
 ---
 layout: "@/layouts/BlogPost"
-title: Custom Controls in a React Leaflet map
+title: Build An Address Lookup Feature In A React Application
 publishDate: 13 January 2023
-description: Create a map with custom control widgets in a React map using React Leaflet
+description: Learn how to use the open source LeafletJS package in React, to create a map with address search capabilities.
 tags: ["react", "leaflet", "gis"]
 draft: false
 ---
@@ -11,7 +11,7 @@ import LeafletMap from "src/components/LeafletMap.astro";
 
 ## Add Maps To A Website With Leaflet
 
-[Leaflet](https://leafletjs.com/) is an open source JavaScript package that let's you easily add an interactive map into your app or webpage. It has a small footprint yet is fully featured, and has a thriving community of [plugins](https://leafletjs.com/plugins.html) to choose from.
+[Leaflet](https://leafletjs.com/) is an open source JavaScript package that lets you easily add an interactive map into your app or webpage. It has a small footprint yet is fully featured, and has a thriving community of [plugins](https://leafletjs.com/plugins.html) to choose from.
 
 The [React Leaflet](https://react-leaflet.js.org/) package provides React bindings for the Leaflet package. In this post I demonstrate how to create a map component with address search functionality in a React app using the React Leaflet package and [Geoapify](https://www.geoapify.com/) API.
 
@@ -264,6 +264,7 @@ Let's wrap the initialization of the control with the `useMemo` hook to improve 
 Return `new SearchControl()` from `useMemo`, so that it is available in our `useEffect` hook:
 
 ```tsx
+// AddressSearch.tsx
 export const AddressSearch = () => {
   const map = useMap();
 
