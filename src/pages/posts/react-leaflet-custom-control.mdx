@@ -13,11 +13,13 @@ import LeafletMap from "src/components/LeafletMap.astro";
 
 [Leaflet](https://leafletjs.com/) is an open source JavaScript package that let's you easily add an interactive map into your app or webpage. It has a thriving community of [plugins](https://leafletjs.com/plugins.html) to choose from.
 
-The [react-leaflet](https://react-leaflet.js.org/) package provides React bindings for the Leaflet package. In this post I will demonstrate how to create a custom address search component in a React app using the [react-leaflet](https://react-leaflet.js.org/) package and [Geoapify](https://www.geoapify.com/) API.
+The [React Leaflet](https://react-leaflet.js.org/) package provides React bindings for the Leaflet package. In this post I demonstrate how to create a map component with address search functionality in a React app using the React Leaflet package and [Geoapify](https://www.geoapify.com/) API.
+
+Through the process, you will learn how to add arbitrary HTML elements as custom controls to a React Leaflet map.
 
 ### Getting Started
 
-Let's add a standard map to our React app using the `react-leaflet` package. Begin by adding the dependencies to your React app.
+Let's begin by rendering a basic map in our React app. Install the necessary dependencies:
 
 ```bash
 npm i leaflet react-leaflet
@@ -32,18 +34,20 @@ Package versions used at time of writing:
 - @geoapify/geocoder-autocomplete
 </aside>
 
-We require the css for the leaflet package to be loaded. Add this `<link>` tag to the `<head>` of your page:
+The [React Leaflet Installation Guide](https://react-leaflet.js.org/docs/start-installation/) directs us to setup the base Leaflet package first. That involves setting up the stylesheet.
+
+Visit the [Leaflet Quick Start Guide](https://leafletjs.com/examples/quick-start/) to get the latest version of the `<link>` tag and add it to the `<head>` of your page:
 
 ```tsx
 <link
   rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+  integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
   crossOrigin=""
 />
 ```
 
-With that in place let's create a basic `Map.tsx` component:
+With that in place let's create a `Map.tsx` component like so:
 
 ```tsx
 // Map.tsx
@@ -68,15 +72,15 @@ const Map = () => {
 export default Map;
 ```
 
-This gives us a basic leaflet map centered on London, England. It comes with a zoom control element and click and drag functionality. We also added a map marker that displays a pop up when clicked.
+This gives us a basic Leaflet map centered on London, England. It comes with a zoom control element and click and drag functionality. We also added a map marker that displays a pop up when clicked.
 
-Make sure to set a height on the component. In this example I styled it with Tailwind CSS: `classname="h-80"`.
+Make sure to set a height on the component. In this example I styled it with Tailwind CSS: `className="h-80"`.
 
 <LeafletMap showStaticMarker={true} />
 
 ### Creating our Custom Control
 
-Now lets add an arbitrary html element as a control overlay to the leaflet map instance. Create a `CustomControl.tsx` component like so:
+Now lets add an arbitrary HTML element as a control overlay to the Leaflet map instance. Create a `CustomControl.tsx` component like so:
 
 ```tsx
 // CustomControl.tsx
@@ -118,7 +122,7 @@ export const LeafletCustomControl = () => {
 };
 ```
 
-Add it as a child component of `<MapContainer>`. We will see a pink square in the top right corner of the map, with a click event handler.
+Add it as a child component of `<MapContainer>`. You should see a pink square in the top right corner of the map, with a click event handler.
 
 ```tsx
 // Map.tsx
@@ -130,9 +134,9 @@ Add it as a child component of `<MapContainer>`. We will see a pink square in th
 <LeafletMap showBasicControl={true}/>
 
 Let's breakdown what is happening:
-- A Leaflet control is an instance of the `Control` class with the additional `onAdd` and `onRemove` methods.
+- A [Leaflet control](https://leafletjs.com/reference.html#control) is an instance of the `L.Control` class that implements the `onAdd` and `onRemove` methods.
 - The `useMap` hook returns the root `<MapContainer>` reference for any of its child components.
-- The `Control.extend` method returns a class that implements the leaflet `Control` type, and we define the position as `topright`.
+- The `L.Control.extend` method returns a class that implements the `L.Control` type, and we define the position as `topright`.
 - Within the `onAdd` callback, we create an `HTMLDivElement`, add styles and event handlers to the element, and return it from the function.
 - We instantiate an instance of our custom control.
 - Inside a `useEffect` hook we use the `addControl` method to add the instance of our custom control to our `<MapContainer>` reference.
@@ -229,27 +233,25 @@ Let's add the component as a child of the `<MapContainer>` component to use the 
 ```
 
 <aside className="caution mb-5">
-Depending on how popular this post is, the Geoapify API free tier might run out of credits. Please use sparingly =]
+Depending on the popularity of this post, there may be no credits left on the Geoapify free tier. Please use sparingly =]
 </aside>
 <LeafletMap showAddressSearch={true} />
 
 The `GeocoderAutocomplete` class accepts as arguments an `HTMLElement`, the API key, and some optional configurations. Instantiating the class will add the address search component as a child of the `HTMLElement` supplied as the argument.
 
-Like in the previous example, we add styles to the `HTMLElement`. The `minimal` CSS class is from the stylesheet provided by the Geocoder Autocomplete package.
-
-<aside className="info">
-The `HTMLElement` container must have a CSS display property of `relative` or `absolute`.
-</aside>
+Like in the previous example, we add styles to the `HTMLElement`. The `minimal` CSS class is from the stylesheet provided by the Geocoder Autocomplete package. The `HTMLElement` container must have a CSS display property of `relative` or `absolute`.
 
 The Autocomplete component can [listen to a number of events](https://github.com/geoapify/geocoder-autocomplete#geocoder-autocomplete-events). We use the `select` event to change the map view when a suggestion is selected.
 
-The `click` and `dblclick` event handlers are used to stop the event bubbling up to the root `<MapContainer>` element. You might want this behaviour if you have `click` event handlers on the `<MapContainer>` component itself. For example, you can add a `<Marker>` and set the view to the location that was clicked on the map tile.
+<aside className="info">
+The `click` and `dblclick` event handlers are used to stop click events bubbling up to the root `<MapContainer>` element. You might want this behaviour if you have `click` event handlers on the `<MapContainer>` component itself. For example, the map could have an event handler that creates a `<Marker>` on the clicked location, then sets the map view to that location.
+</aside>
 
 ### Optimization
 
-something something production, experienced react devs.
+Let's wrap the initialization of the control with the `useMemo` hook to improve performance.
 
-Let's wrap the expensive operations of creating dom elements and adding event listeners with the `useMemo` hook. We can return the instance of the `SearchControl` class from the hook, so that it is available in our `useEffect` hook:
+Return `new SearchControl()` from `useMemo`, so that it is available in our `useEffect` hook:
 
 ```tsx
 export const AddressSearch = () => {
