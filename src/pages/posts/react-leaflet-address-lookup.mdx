@@ -1,8 +1,8 @@
 ---
 layout: "@/layouts/BlogPost"
-title: Build An Address Lookup Feature In A React Application
+title: Build An Address Lookup Feature With React Leaflet
 publishDate: 10 January 2023
-description: Learn how to use the open source LeafletJS package in React, to create a map with address search capabilities.
+description: Using the open source LeafletJS package in React to create a map with address search capabilities.
 tags: ["react", "leaflet", "gis"]
 draft: false
 ---
@@ -11,23 +11,22 @@ import LeafletMap from "src/components/LeafletMap.astro";
 
 ## Add Maps To A Website With Leaflet
 
-[Leaflet](https://leafletjs.com/) is an open source JavaScript package that lets you easily add an interactive map into your app or webpage. It has a small footprint yet is fully featured, and has a thriving community of [plugins](https://leafletjs.com/plugins.html) to choose from.
+[Leaflet](https://leafletjs.com/) is an open source JavaScript package for adding interactive maps into your app or webpage. It has a small footprint yet is fully featured, and has a thriving community of [plugins](https://leafletjs.com/plugins.html) to choose from.
 
-The [React Leaflet](https://react-leaflet.js.org/) package provides React bindings for the Leaflet package. In this post I demonstrate how to create a map component with address search functionality in a React app using the React Leaflet package and [Geoapify](https://www.geoapify.com/) API.
+The [React Leaflet](https://react-leaflet.js.org/) package provides React bindings for the Leaflet package. In this post I demonstrate how to create a map component with address search functionality using the React Leaflet package and [Geoapify](https://www.geoapify.com/) API.
 
 Through this process, you will learn how to add arbitrary HTML elements as custom controls to a React Leaflet map.
 
 ## Getting Started With React Leaflet
 
-Let's begin by rendering a basic map in our React app. Install the necessary dependencies:
+Let's begin by rendering a basic map in our React app. Install the required dependencies:
 
 ```bash
 npm i leaflet react-leaflet
 npm i -D @types/leaflet @types/react-leaflet
 ```
 
-<aside className="info">
-At time of writing the package versions used are:
+At the time of writing these are the package versions used:
 
 | Package                         | Version |
 | ------------------------------- | ------: |
@@ -36,8 +35,6 @@ At time of writing the package versions used are:
 | leaflet                         |   1.9.3 |
 | react-leaflet                   |   4.2.0 |
 | @geoapify/geocoder-autocomplete |   1.5.1 |
-
-</aside>
 
 The [React Leaflet Installation Guide](https://react-leaflet.js.org/docs/start-installation/) directs us to setup the base Leaflet package first. That involves setting up the stylesheet.
 
