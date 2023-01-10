@@ -9,15 +9,15 @@ draft: false
 
 import LeafletMap from "src/components/LeafletMap.astro";
 
-## Intro
+## Add Maps To A Website With Leaflet
 
-[Leaflet](https://leafletjs.com/) is an open source JavaScript package that let's you easily add an interactive map into your app or webpage. It has a thriving community of [plugins](https://leafletjs.com/plugins.html) to choose from.
+[Leaflet](https://leafletjs.com/) is an open source JavaScript package that let's you easily add an interactive map into your app or webpage. It has a small footprint yet is fully featured, and has a thriving community of [plugins](https://leafletjs.com/plugins.html) to choose from.
 
 The [React Leaflet](https://react-leaflet.js.org/) package provides React bindings for the Leaflet package. In this post I demonstrate how to create a map component with address search functionality in a React app using the React Leaflet package and [Geoapify](https://www.geoapify.com/) API.
 
 Through the process, you will learn how to add arbitrary HTML elements as custom controls to a React Leaflet map.
 
-## Getting Started
+## Getting Started With React Leaflet
 
 Let's begin by rendering a basic map in our React app. Install the necessary dependencies:
 
@@ -83,7 +83,7 @@ Make sure to set a height on the component. In this example I styled it with Tai
 
 <LeafletMap showStaticMarker={true} />
 
-## Creating our Custom Control
+## Creating A Custom Control
 
 Now lets add an arbitrary HTML element as a control overlay to the Leaflet map instance. Create a `CustomControl.tsx` component like so:
 
@@ -151,9 +151,9 @@ Let's breakdown what is happening:
 
 We now have a React component that can be used with any React Leaflet map by adding it as a child component. More importantly, the control element will be rendered on top of the map tiles, which makes for an intuitive user experience.
 
-## The Geoapify Address Search
+## Address Search With Geoapify
 
-Let's make something useful now. We will leverage the [Geoapify Address Autocomplete API](https://www.geoapify.com/address-autocomplete) to add address search functionality to our map. It has a generous request limit of 3000 daily credits for the free tier. We will use the [Geocoder Autocomplete](https://github.com/geoapify/geocoder-autocomplete) package which handles making API calls, and rendering of the search suggestions on the page for us.
+Let's make something useful now. We will leverage the [Geoapify Address Autocomplete API](https://www.geoapify.com/address-autocomplete) to add address search functionality to our map. It generously provides 3000 daily credits for use in the free tier. We will use the [Geocoder Autocomplete](https://github.com/geoapify/geocoder-autocomplete) package which handles making API calls, and rendering of the search suggestions on the page for us.
 
 <aside className="info">
   There is a [react-geocoder-autocomplete](https://github.com/geoapify/react-geocoder-autocomplete)
@@ -242,7 +242,7 @@ Let's add the component as a child of the `<MapContainer>` component to use the 
 ```
 
 <aside className="caution mb-5">
-  Depending on the popularity of this post, there may be no credits remaining on the Geoapify free tier.
+  Depending on the popularity of this post, there might not be credits remaining on the Geoapify free tier.
   Please use sparingly =]
 </aside>
 <LeafletMap showAddressSearch={true} />
