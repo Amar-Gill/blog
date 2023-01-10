@@ -42,7 +42,7 @@
   }
 
   .dark .caution {
-    @apply bg-yellow-600/20 border-l-yellow-600;
+    @apply border-l-yellow-600 bg-yellow-600/20;
     color: var(--theme-accent-2);
   }
 
@@ -51,7 +51,7 @@
   }
 
   .dark .info {
-    @apply bg-blue-600/20 border-l-blue-900;
+    @apply border-l-blue-900 bg-blue-600/20;
     color: var(--theme-accent-2);
   }
 
