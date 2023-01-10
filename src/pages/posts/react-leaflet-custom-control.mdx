@@ -25,13 +25,18 @@ Let's begin by rendering a basic map in our React app. Install the necessary dep
 npm i leaflet react-leaflet
 npm i -D @types/leaflet @types/react-leaflet
 ```
+
 <aside className="info">
-Package versions used at time of writing:
-- react
-- react-dom
-- leaflet
-- react-leaflet
-- @geoapify/geocoder-autocomplete
+At time of writing the package versions used are:
+
+| Package                         | Version |
+| ------------------------------- | ------: |
+| react                           |  18.0.0 |
+| react-dom                       |  18.0.0 |
+| leaflet                         |   1.9.3 |
+| react-leaflet                   |   4.2.0 |
+| @geoapify/geocoder-autocomplete |   1.5.1 |
+
 </aside>
 
 The [React Leaflet Installation Guide](https://react-leaflet.js.org/docs/start-installation/) directs us to setup the base Leaflet package first. That involves setting up the stylesheet.
@@ -131,9 +136,11 @@ Add it as a child component of `<MapContainer>`. You should see a pink square in
   <CustomControl />
 </MapContainer>
 ```
-<LeafletMap showBasicControl={true}/>
+
+<LeafletMap showBasicControl={true} />
 
 Let's breakdown what is happening:
+
 - A [Leaflet control](https://leafletjs.com/reference.html#control) is an instance of the `L.Control` class that implements the `onAdd` and `onRemove` methods.
 - The `useMap` hook returns the root `<MapContainer>` reference for any of its child components.
 - The `L.Control.extend` method returns a class that implements the `L.Control` type, and we define the position as `topright`.
@@ -149,7 +156,10 @@ We now have a React component that can be used with any React Leaflet map by add
 Let's make something useful now. We will leverage the [Geoapify Address Autocomplete API](https://www.geoapify.com/address-autocomplete) to add address search functionality to our map. It has a generous request limit of 3000 daily credits for the free tier. We will use the [Geocoder Autocomplete](https://github.com/geoapify/geocoder-autocomplete) package which handles making API calls, and rendering of the search suggestions on the page for us.
 
 <aside className="info">
-There is a [react-geocoder-autocomplete](https://github.com/geoapify/react-geocoder-autocomplete) package available as well. We will *not* be using this package. Because the Leaflet custom control API works by returning an `HTMLElement` from the `onAdd` method, as shown in the example above using an `HTMLDivElement`.
+  There is a [react-geocoder-autocomplete](https://github.com/geoapify/react-geocoder-autocomplete)
+  package available as well. We will *not* be using this package. Because the Leaflet custom control
+  API works by returning an `HTMLElement` from the `onAdd` method, as shown in the example above
+  using an `HTMLDivElement`.
 </aside>
 
 Before we proceed, you will need to visit the [Geoapify](https://myprojects.geoapify.com/login) platform and register so you can obtain an API key.
@@ -195,11 +205,9 @@ export const AddressSearch = () => {
         e.stopPropagation();
       });
 
-      const autocomplete = new GeocoderAutocomplete(
-        el,
-        "API_KEY",
-        { placeholder: "Enter an address" },
-      );
+      const autocomplete = new GeocoderAutocomplete(el, "API_KEY", {
+        placeholder: "Enter an address",
+      });
 
       autocomplete.on("select", (location) => {
         const { lat, lon } = location.properties;
@@ -222,6 +230,7 @@ export const AddressSearch = () => {
   return null;
 };
 ```
+
 Let's add the component as a child of the `<MapContainer>` component to use the control:
 
 ```tsx
@@ -233,7 +242,8 @@ Let's add the component as a child of the `<MapContainer>` component to use the 
 ```
 
 <aside className="caution mb-5">
-Depending on the popularity of this post, there may be no credits left on the Geoapify free tier. Please use sparingly =]
+  Depending on the popularity of this post, there may be no credits left on the Geoapify free tier.
+  Please use sparingly =]
 </aside>
 <LeafletMap showAddressSearch={true} />
 
@@ -275,11 +285,9 @@ export const AddressSearch = () => {
           e.stopPropagation();
         });
 
-        const autocomplete = new GeocoderAutocomplete(
-          el,
-          "API_KEY",
-          { placeholder: "Enter an address" },
-        );
+        const autocomplete = new GeocoderAutocomplete(el, "API_KEY", {
+          placeholder: "Enter an address",
+        });
 
         autocomplete.on("select", (location) => {
           const { lat, lon } = location.properties;
