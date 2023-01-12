@@ -1,5 +1,5 @@
 const siteMeta = {
-  title: "Amar Gill's blog",
+  title: "Amar Gill's Blog",
   description: "Blog about web development",
   lang: "en-GB",
   ogLocale: "en_GB",
