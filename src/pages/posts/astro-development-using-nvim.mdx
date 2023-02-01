@@ -1,7 +1,7 @@
 ---
 layout: "@/layouts/BlogPost"
 title: Setting Up Neovim For Astro Development
-publishDate: January 6, 2023
+publishDate: January 31, 2023
 description: The settings and plugins I use to build Astro websites.
 tags: ["astro", "neovim"]
 draft: false
@@ -11,7 +11,7 @@ draft: false
 
 - The `astro` [language server](https://github.com/withastro/language-tools/tree/main/packages/language-server) can be installed with [mason](https://github.com/williamboman/mason.nvim) and set up through the [nvim-lsp-config](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#astro) plugin.
 - For syntax highlighting of `.astro` files, the [tree-sitter-astro](https://github.com/virchau13/tree-sitter-astro) grammar is available through the [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter#supported-languages) plugin.
-- [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js) plugin for syntax highlighting of `.mdx` files.
+- Use an autocommand to detect the `.mdx` filetype. Otherwise use the [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js) plugin for syntax highlighting of `.mdx` files. (neovim 0.8.2)
 - Make sure the [prettierd](https://github.com/fsouza/prettierd) built in formatting source (via [null-ls](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#prettierd)) attaches to `astro` buffers. Otherwise you can format using the Astro Language Server. [Sample code](#formatting).
 - Look into the `wrap` and `sidescroll` options to control how you want to work with lines that trail off the screen. Useful for Markdown editing.
 
@@ -21,9 +21,27 @@ To get started we need LSP support and syntax highlighting for `.astro` files. N
 
 ## MDX Syntax Highlighting
 
-I noticed `.mdx` files were not being highlighted at all, despite having the tree-sitter grammar for [markdown](https://github.com/MDeiml/tree-sitter-markdown) installed. I couldn't find a tree-sitter grammar for `.mdx` files, but there was a Vim plugin that I could install instead: [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js).
+I noticed `.mdx` files were not being highlighted at all, because the `markdown.mdx` file type was not being detected by neovim. The neovim version as of writing is 0.8.2.
 
-I'm really happy with this plugin so far. It provides syntax highlighting of frontmatter which is in `.yaml` format. And it correctly highlights code blocks for all the programming languages I write about.
+I couldn't find a tree-sitter grammar for `.mdx` files, but I have the tree-sitter grammar for [markdown](https://github.com/MDeiml/tree-sitter-markdown) installed. So I created an autocommand that set the file type to `markdown.mdx` when I enter a new buffer:
+
+```lua
+local mdx_ft_detect = vim.api.nvim_create_augroup("mdx_ft_detect", {})
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
+	group = mdx_ft_detect,
+	callback = function()
+		local filename = vim.api.nvim_buf_get_name(0)
+		local match = string.find(filename, ".mdx")
+		if match then
+			vim.cmd("set filetype=markdown.mdx")
+		end
+	end,
+})
+```
+
+I'm happy with this solution. It provides syntax highlighting of frontmatter which is in `.yaml` format. And it correctly highlights code blocks for all the programming languages I write about.
+
+There is a Vim plugin that could achieve this as well: [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js).
 
 ## Formatting
 
