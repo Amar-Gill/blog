@@ -82,7 +82,7 @@ end
 
 Markdown files usually contain long lines that will trail off the screen if you don't enable text wrapping. If you want to keep text wrapping off, you can modify the `sidescroll` option. It controls the minimum number of columns to scroll horizontally when the `wrap` option is off and the cursor moves off the screen.
 
-The default amount is 1. You can try setting it to 5 which will move the cursor back by 5 columns as you write. Setting the option to 0 will move the cursor to the middle which you may prefer instead:
+The default value is 1 column. You can try setting it to 5 which will move the cursor back by 5 columns as you write. Setting the option to 0 will move the cursor to the middle column of the screen which you may prefer instead:
 
 ```lua
 vim.opt.wrap = false
