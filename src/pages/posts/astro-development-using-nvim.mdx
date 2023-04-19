@@ -35,11 +35,11 @@ vim.filetype.add({
 })
 ```
 
-Call this command at some point during neovim initialization. I have a file named `ft-add.lua` which I require in my root `init.lua` file.
-
-We only need to match the `.mdx` extension, but check out the linked documentation to learn about other options available for filetype detection.
+Call this method during neovim initialization. I have a file named `ft-add.lua` which I require in my root `init.lua` file.
 
 I'm happy with this solution. It provides syntax highlighting of frontmatter which is in `.yaml` format. And it correctly highlights code blocks for all the programming languages I write about.
+
+We only need to match the `.mdx` extension, but the linked documentation describes the other options available for filetype detection.
 
 There is a Vim plugin that could achieve this as well: [jxnblk/vim-mdx-js](https://github.com/jxnblk/vim-mdx-js).
 
