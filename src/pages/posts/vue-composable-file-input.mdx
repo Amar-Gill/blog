@@ -11,7 +11,7 @@ draft: false
 
 I developed this composable while working on a side project using Nuxt 3. I wanted to upload a file to the backend, so I needed the base64 encoded URL of the file.
 
-Encoding a file to the base64 format allows you to send the file to a server through http, since the encoded URL is just a string.
+Encoding a file into the base64 URL format allows you to send the file to a server through http, since the encoded URL is just a string.
 
 I also wanted to know the filesize in bytes so I could do some client side validation if the file was too large.
 
@@ -65,7 +65,7 @@ export default function useFileInput() {
 ```
 
 How it works:
-- We make use of the JavaScript [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) API to obtain the base64 encoded url.
+- We make use of the JavaScript [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) API to obtain the base64 encoded URL.
 - The file size in bytes can be determined by the length of URL multiplied by (3/4) because base64 encodes 3 bytes of data in every 4 characters.
   - I didn't bother adding logic to adjust for string padding at the end of URL since it makes a negligible difference for most files.
 - The composable only supports a single file. You can tweak the code to support multiple files if desired.
