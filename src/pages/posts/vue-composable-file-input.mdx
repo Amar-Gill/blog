@@ -1,0 +1,78 @@
+---
+layout: "@/layouts/BlogPost"
+title: A Vue 3 composable for working with file input elements
+publishDate: 22 April 2023
+description: A Vue 3 composable for working with file input elements.
+tags: ["vue", "composables"]
+draft: true
+---
+
+## what are we building
+
+todo
+
+## The composable
+
+Here is the code for the composable:
+
+```ts
+export function useFileInput() {
+  const fileInput = ref<HTMLInputElement>(null!);
+  const base64Url = ref("");
+
+  const filesizeBytes = computed(() => {
+    if (!base64Url.value) {
+      return 0;
+    }
+    const [_head, encoded] = base64Url.value.split(",");
+    return encoded.length * (3 / 4);
+  });
+
+  const filesizeKb = computed(() => filesizeBytes.value / 1000);
+
+  /**
+   * sets the base64Url ref to the base64 encoded url of the file stored in the fileInput ref
+   */
+  const setBase64Url = () => {
+    const { files } = fileInput.value;
+
+    if (!files?.length) {
+      return console.log("No file selected.");
+    }
+
+    const f = files[0];
+
+    const reader = new FileReader();
+    reader.onloadend = function (this) {
+      base64Url.value = this.result as string;
+    };
+    reader.readAsDataURL(f);
+  };
+
+  return { fileInput, base64Url, filesizeBytes, filesizeKb, setBase64Url };
+}
+```
+
+## Using the composable
+
+Below is a basic example of how to set the base 64 url using the `setBase64Url` method returned by the composable:
+
+```vue
+<script setup>
+import useFileInput from './useFileInput.ts';
+
+const { fileInput, base64Url, setBase64Url, filesizeKb } = useFileInput();
+
+</script>
+
+<template>
+  <input type="file" ref="fileInput" @change="setBase64Url">
+  <h1>
+    Filesize Kb: {{ filesizeKb }}
+  </h1>
+  <h1>
+    Base 64 URL: {{ base64Url.slice(0,20)}}
+  </h1>
+</template>
+```
+
