@@ -1,6 +1,6 @@
 ---
 layout: "@/layouts/BlogPost"
-title: A Vue 3 composable for file inputs
+title: A Vue 3 Composable For File Inputs
 publishDate: 22 April 2023
 description: Using the Vue 3 composition api to obtain the base64 encoded url for a file plus it's file size.
 tags: ["vue", "composables"]
@@ -9,12 +9,11 @@ draft: true
 
 ## What Are We Building
 
-I want to share a simple composable I used in a Vue project of mine. I needed to upload a file to the backend, so I needed the base64 encoded url.
+I want to share a simple composable I used in a Vue project of mine. I wanted to upload a file to the backend, so I needed the base64 encoded url of the file.
 
 Encoding a file to the base64 format allows you to send the file to a server through http, since the encoded url is just a string.
 
 I also wanted to know the filesize in bytes so I could do some client side validation if the file was too large.
-
 
 ## The Composable
 
@@ -65,15 +64,15 @@ export default function useFileInput() {
 }
 ```
 
-A brief description of how it works:
-- We make use of the JavaScript [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) api to obtain the base64 encoded url
-- The file size in bytes can be determined by the length of url multiplied by (3/4) because base64 encodes 3 bytes of data in every 4 characters
-  - I didn't bother adding logic to adjust for string padding at the end of url since it makes a negligible difference for most files
+How it works:
+- We make use of the JavaScript [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) api to obtain the base64 encoded url.
+- The file size in bytes can be determined by the length of url multiplied by (3/4) because base64 encodes 3 bytes of data in every 4 characters.
+  - I didn't bother adding logic to adjust for string padding at the end of url since it makes a negligible difference for most files.
 - The composable only supports a single file. You can tweak the code to support multiple files if desired.
 
 ## Using The Composable
 
-Use the `onchange` event of the input element to call the `setBase64Url` method from the composable. This will make the url value available as well as the filesize computed values.
+Set the `ref` attribute of the target file input element to the `fileInput` ref object returned by the composable. Use the `onchange` event of the input element to call the `setBase64Url` method from the composable. This will make the url value available as well as the filesize computed values.
 
 ```vue
 <script setup>
