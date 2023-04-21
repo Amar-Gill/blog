@@ -1,22 +1,27 @@
 ---
 layout: "@/layouts/BlogPost"
-title: A Vue 3 composable for working with file input elements
+title: A Vue 3 composable for file inputs
 publishDate: 22 April 2023
-description: A Vue 3 composable for working with file input elements.
+description: Using the Vue 3 composition api to obtain the base 64 encoded url for a file plus it's file size.
 tags: ["vue", "composables"]
 draft: true
 ---
 
 ## What Are We Building
 
-A concise Vue 3 composable to convert a file into a base 64 encoded url. This is useful for uploading files to a server for processing. It also provides some extra computed values for the size of the file.
+I want to share a simple composable I used in a Vue project of mine. I needed to upload a file to the backend, so I needed the base 64 encoded url.
+
+Encoding a file to the base 64 format allows you to send the file to a server through http, since the encoded url is just a string.
+
+I also wanted to know the filesize in bytes so I could do some client side validation if the file was too large.
+
 
 ## The Composable
 
-Here is the code for the composable:
-
 ```ts
-export function useFileInput() {
+import { computed, ref } from "vue";
+
+export default function useFileInput() {
   const fileInput = ref<HTMLInputElement>(null!);
   const base64Url = ref("");
 
@@ -38,7 +43,7 @@ export function useFileInput() {
     const { files } = fileInput.value;
 
     if (!files?.length) {
-      return console.log("No file selected.");
+      return;
     }
 
     const f = files[0];
@@ -61,10 +66,10 @@ export function useFileInput() {
 ```
 
 A brief description of how it works:
-- we make use of the JavaScript `FileReader` api to obtain the base 64 encoded url
-  - [further reading on file reader api](https://pqina.nl/blog/convert-a-file-to-a-base64-string-with-javascript/)
-- the file size in bytes can be determined by the length of url multiplied by (3/4) because base 64 encodes 3 bytes of data in every 4 characters
-  - I don't bother adding logic to adjust for string padding at the end of url since it makes a negligible difference for most files
+- We make use of the JavaScript [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) api to obtain the base 64 encoded url
+- The file size in bytes can be determined by the length of url multiplied by (3/4) because base 64 encodes 3 bytes of data in every 4 characters
+  - I didn't bother adding logic to adjust for string padding at the end of url since it makes a negligible difference for most files
+- The composable only supports a single file. You can tweak the code to support multiple files if desired.
 
 ## Using The Composable
 
@@ -84,11 +89,7 @@ const {
 </script>
 
 <template>
-  <input
-  type="file"
-  ref="fileInput"
-  @change="setBase64Url"
-  >
+  <input type="file" ref="fileInput" @change="setBase64Url" >
   <h1>
     Filesize Kb: {{ filesizeKb }}
   </h1>
