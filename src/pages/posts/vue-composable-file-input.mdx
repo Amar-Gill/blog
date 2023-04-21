@@ -7,9 +7,9 @@ tags: ["vue", "composables"]
 draft: true
 ---
 
-## what are we building
+## What are we building
 
-todo
+A concise Vue 3 composable to convert a file into a base 64 encoded url. This is useful for uploading files to a server for processing. It also provides some extra computed values for the size of the file.
 
 ## The composable
 
@@ -31,7 +31,8 @@ export function useFileInput() {
   const filesizeKb = computed(() => filesizeBytes.value / 1000);
 
   /**
-   * sets the base64Url ref to the base64 encoded url of the file stored in the fileInput ref
+   * sets the base64Url ref to the base64 encoded url
+   * of the file stored in the fileInput ref
    */
   const setBase64Url = () => {
     const { files } = fileInput.value;
@@ -49,24 +50,44 @@ export function useFileInput() {
     reader.readAsDataURL(f);
   };
 
-  return { fileInput, base64Url, filesizeBytes, filesizeKb, setBase64Url };
+  return {
+    fileInput,
+    base64Url,
+    filesizeBytes,
+    filesizeKb,
+    setBase64Url
+  };
 }
 ```
 
+A brief description of how it works:
+- we make use of the JavaScript `FileReader` api to obtain the base 64 encoded url
+  - [further reading on file reader api](https://pqina.nl/blog/convert-a-file-to-a-base64-string-with-javascript/)
+- the file size in bytes can be determined by the length of url multiplied by (3/4) because each character 4 bytes?
+
 ## Using the composable
 
-Below is a basic example of how to set the base 64 url using the `setBase64Url` method returned by the composable:
+Use the `onchange` event of the input element to call the `setBase64Url` method from the composable. This will make the url value available as well as the filesize computed values.
 
 ```vue
 <script setup>
 import useFileInput from './useFileInput.ts';
 
-const { fileInput, base64Url, setBase64Url, filesizeKb } = useFileInput();
+const {
+  fileInput,
+  base64Url,
+  setBase64Url,
+  filesizeKb
+  } = useFileInput();
 
 </script>
 
 <template>
-  <input type="file" ref="fileInput" @change="setBase64Url">
+  <input
+  type="file"
+  ref="fileInput"
+  @change="setBase64Url"
+  >
   <h1>
     Filesize Kb: {{ filesizeKb }}
   </h1>
@@ -75,4 +96,3 @@ const { fileInput, base64Url, setBase64Url, filesizeKb } = useFileInput();
   </h1>
 </template>
 ```
-
