@@ -7,11 +7,11 @@ tags: ["vue", "composables"]
 draft: true
 ---
 
-## What are we building
+## What Are We Building
 
 A concise Vue 3 composable to convert a file into a base 64 encoded url. This is useful for uploading files to a server for processing. It also provides some extra computed values for the size of the file.
 
-## The composable
+## The Composable
 
 Here is the code for the composable:
 
@@ -63,9 +63,10 @@ export function useFileInput() {
 A brief description of how it works:
 - we make use of the JavaScript `FileReader` api to obtain the base 64 encoded url
   - [further reading on file reader api](https://pqina.nl/blog/convert-a-file-to-a-base64-string-with-javascript/)
-- the file size in bytes can be determined by the length of url multiplied by (3/4) because each character 4 bytes?
+- the file size in bytes can be determined by the length of url multiplied by (3/4) because base 64 encodes 3 bytes of data in every 4 characters
+  - I don't bother adding logic to adjust for string padding at the end of url since it makes a negligible difference for most files
 
-## Using the composable
+## Using The Composable
 
 Use the `onchange` event of the input element to call the `setBase64Url` method from the composable. This will make the url value available as well as the filesize computed values.
 
