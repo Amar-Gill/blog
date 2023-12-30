@@ -1,0 +1,39 @@
+---
+layout: "@/layouts/BlogPost"
+title: Automatic Migrations in Nuxt 3 using Drizzle
+publishDate: December 30, 2023
+description: Automatically run migrations for your Nuxt3 application on deployment.
+tags: ["nuxt", "drizzle", "turso", "database"]
+draft: true
+---
+
+## TLDR
+
+1. Use server prepare module
+2. Use this code (link)
+
+## Intro
+
+Drizzle is a TypeScript ORM that can also manage migrations for you. During development it's convenient to use their db push feature. When you are ready to go to production, you can generate migration scripts with drizzle.
+
+It would be nice to have your generated migrations be applied automatically when you push code up for a new deployment, instead of copying the SQL scripts and applying them manually.
+
+We will cover two methods to achieve this.
+
+## Overview
+
+This will work for a Nuxt3 application deployed to Vercel or similar hosting provider with Github integration.
+
+This is meant to be used with a hosted database provider. In this example we are leveraging Turso. Should work the same for other hosted database providers such as PlanetScale or Neon.
+
+## Method 1: Nuxt Build Hooks
+
+We want to
+
+todo code.
+
+## Method 2: Server Prepare module
+
+lala
+
+code
