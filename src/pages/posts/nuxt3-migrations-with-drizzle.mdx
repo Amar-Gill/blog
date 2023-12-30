@@ -9,12 +9,12 @@ draft: true
 
 ## TLDR
 
-1. Use server prepare module
-2. Use this code (link)
+1. Add the [nuxt-prepare](https://nuxt.com/modules/prepare) module to your project.
+2. Copy this [code](#method-2-server-prepare-nuxt-module) into your `server.prepare.ts` script (assuming Drizzle is set up already).
 
 ## Drizzle ORM
 
-Drizzle is a TypeScript ORM that can also manage migrations for you. During development it's convenient to use their db push feature. When you are ready to go to production, you can generate migration scripts with drizzle-kit.
+[Drizzle](https://orm.drizzle.team/) is a TypeScript ORM that can also manage migrations for you. During development it's convenient to use their db push feature. When you are ready to go to production, you can generate migration scripts with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview).
 
 It would be nice to have your generated migrations be applied automatically when you push code up for a new deployment, instead of copying the SQL scripts and applying them manually.
 
@@ -22,17 +22,22 @@ We will cover two methods to achieve this.
 
 ## Architecture
 
-This will work for a Nuxt3 application deployed to Vercel or similar hosting provider with Github integration.
+This will work for a Nuxt3 application deployed to [Vercel](https://vercel.com/) or a similar hosting provider with Github integration.
 
-This is meant to be used with a hosted database provider. In this example we are leveraging Turso. Should work the same for other hosted database providers such as PlanetScale or Neon.
+This is meant to be used with a hosted database provider. In this example we are leveraging [Turso](https://turso.tech/). It should work the same for other hosted database providers such as [PlanetScale](https://planetscale.com/) or [Neon](https://neon.tech/).
+
+## Prerequisites
+
+Get Drizzle ORM set up in your project, including Drizzle Kit for managing migrations.
 
 ## Method 1: Nuxt Build Hooks
 
-Nuxt3 has a powerful system of hooks, that we can levarage to execute the migrations. We will use the `build:before` hook because the migration should run before the new version of the application gets deployed.
+Nuxt3 has a powerful system of [lifecycle hooks](https://nuxt.com/docs/api/advanced/hooks) that we can levarage to execute the migrations. We will use the `build:before` hook because the migration should run before the new version of the application gets deployed.
 
 We can add handlers for hooks in the `nuxt.config.ts` file:
 
 ```ts
+// nuxt.config.ts
 import { drizzle } from 'drizzle-orm/libsql';
 import { migrate } from 'drizzle-orm/libsql/migrator';
 import { createClient } from '@libsql/client';
@@ -75,16 +80,17 @@ export default defineNuxtConfig({
 
 Things to note:
 - as this handler runs before Nuxt is initialized, we access our Turso environment variables through `process.env` instead of `runtimeConfig`
-- we exit the handler early during development and instead rely on db push to apply schema changes to the databse
-- make sure to use the same migrations folder that you specify in `drizzle.config.ts` file
+- we exit the handler early during development and instead rely on db push to apply schema changes to the database
+- make sure to use the same migrations folder that you specify in your `drizzle.config.ts` file
 
 ## Method 2: Server Prepare Nuxt Module
 
-In the second method, we will levarage the handy server-prepare module instead of our own build hook handler.
+In the second method, we will levarage the handy [nuxt-prepare module](https://nuxt.com/modules/prepare) instead of our own lifecycle hook handler. Start by adding the module to your `nuxt.config.ts` file and create a new `server.prepare.ts` file in your project root.
 
-The code is identical to the code used in the hook, except that we return an empty object to satisfy the return type of the prepare handler.
+The code is identical to what we used in the lifecycle hook handler example, except that we return an empty object to satisfy the return type of the prepare handler.
 
 ```ts
+// server.prepare.ts
 import { defineNuxtPrepareHandler } from 'nuxt-prepare/config';
 import { drizzle } from 'drizzle-orm/libsql';
 import { migrate } from 'drizzle-orm/libsql/migrator';
@@ -120,3 +126,5 @@ export default defineNuxtPrepareHandler(async () => {
 });
 
 ```
+
+I prefer the use of a dedicated server prepare script over a build time hook handler, as it provides a nice separation of concerns.
