@@ -2,19 +2,19 @@
 layout: "@/layouts/BlogPost"
 title: Automatic Migrations in Nuxt3 using Drizzle
 publishDate: December 30, 2023
-description: Automatically run migrations for your Nuxt3 application when deploying to Vercel without Github actions.
+description: Automatically apply migrations with Drizzle Kit for your Nuxt3 application when deploying to Vercel.
 tags: ["nuxt", "drizzle", "turso", "database"]
 draft: true
 ---
 
 ## TLDR
 
-1. Add the [nuxt-prepare](https://nuxt.com/modules/prepare) module to your project.
+1. Add the [nuxt-prepare](https://nuxt.com/modules/prepare) nuxt module to your project.
 2. Copy this [code](#method-2-server-prepare-nuxt-module) into your `server.prepare.ts` script (assuming Drizzle and Turso are set up already).
 
 ## Drizzle ORM
 
-[Drizzle](https://orm.drizzle.team/) is a TypeScript ORM that can also manage migrations for you. During development it's convenient to use their db push feature. When you are ready to go to production, you can generate migration scripts with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview).
+[Drizzle](https://orm.drizzle.team/) is a TypeScript ORM that can also manage migrations for you with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview). During development it's convenient to use the [db push](https://orm.drizzle.team/kit-docs/overview#prototyping-with-db-push) feature. When you are ready to go to production, you can generate migration scripts with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview) as well.
 
 It would be nice to have your generated migrations be applied automatically when you push code up for a new deployment, instead of copying the SQL scripts and applying them manually.
 
@@ -22,9 +22,13 @@ We will cover two methods to achieve this.
 
 ## Architecture
 
-This will work for a Nuxt3 application deployed to [Vercel](https://vercel.com/) or a similar hosting provider with Github integration.
+This will work for a Nuxt3 application deployed to [Vercel](https://vercel.com/) or a similar hosting provider with a Github integration.
 
-This is meant to be used with a hosted database provider. In this example we are leveraging [Turso](https://turso.tech/). It should work the same for other hosted database providers such as [PlanetScale](https://planetscale.com/) or [Neon](https://neon.tech/).
+In this example we are leveraging [Turso](https://turso.tech/) as our hosted database provider. It should work the same for other hosted database providers such as [PlanetScale](https://planetscale.com/) or [Neon](https://neon.tech/).
+
+<aside className="info">
+  Nuxt is at version 3.9 at the time of publishing.
+</aside>
 
 ## Prerequisites
 
