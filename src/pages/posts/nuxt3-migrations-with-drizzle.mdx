@@ -1,8 +1,8 @@
 ---
 layout: "@/layouts/BlogPost"
-title: Automatic Migrations in Nuxt 3 using Drizzle
+title: Automatic Migrations in Nuxt 3 with Drizzle
 publishDate: December 30, 2023
-description: Automatically apply migrations with Drizzle Kit for your Nuxt 3 application when deploying to Vercel.
+description: Apply migrations on each deployment of your Nuxt 3 application using Drizzle Kit.
 tags: ["nuxt", "drizzle", "turso", "database"]
 draft: true
 ---
@@ -14,9 +14,9 @@ draft: true
 
 ## Drizzle ORM
 
-[Drizzle](https://orm.drizzle.team/) is a TypeScript ORM that can also manage migrations for you with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview). During development it's convenient to use the [db push](https://orm.drizzle.team/kit-docs/overview#prototyping-with-db-push) feature. When you are ready to go to production, you can generate migration scripts with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview) as well.
+[Drizzle](https://orm.drizzle.team/) is a TypeScript ORM that can also manage migrations for you with [Drizzle Kit](https://orm.drizzle.team/kit-docs/overview). During development you can prototype with the [db push](https://orm.drizzle.team/kit-docs/overview#prototyping-with-db-push) feature of Drizzle Kit. When you are ready to go to production, you can [generate migration scripts](https://orm.drizzle.team/kit-docs/overview#migration-files) with Drizzle Kit as well.
 
-It would be nice to have your generated migrations be applied automatically when you push code up for a new deployment, instead of copying the SQL scripts and applying them manually.
+It would be nice to have your generated migrations be applied automatically when you push code up for a deployment, instead of copying the SQL scripts and applying them manually.
 
 We will cover two methods to achieve this.
 
@@ -24,7 +24,7 @@ We will cover two methods to achieve this.
 
 This will work for a Nuxt 3 application deployed to [Vercel](https://vercel.com/) or a similar hosting provider with a Github integration.
 
-In this example we are leveraging [Turso](https://turso.tech/) as our hosted database provider. It should work the same for other hosted database providers such as [PlanetScale](https://planetscale.com/) or [Neon](https://neon.tech/).
+In this example we use [Turso](https://turso.tech/) as our hosted database provider. It should work the same for other hosted database providers such as [PlanetScale](https://planetscale.com/) or [Neon](https://neon.tech/).
 
 <aside className="info">
   Nuxt is at version 3.9 at the time of publishing.
@@ -35,9 +35,9 @@ In this example we are leveraging [Turso](https://turso.tech/) as our hosted dat
 1. Set up `@libsql` in your Nuxt app which is used by Turso.
 2. Get Drizzle ORM set up in your project, including Drizzle Kit for managing migrations.
 
-## Method 1: Nuxt Build Hooks
+## Method 1: Nuxt Lifecycle Hooks
 
-Nuxt 3 has a powerful system of [lifecycle hooks](https://nuxt.com/docs/api/advanced/hooks) that we can leverage to execute the migrations. We will use the `build:before` hook because the migration should run before the new version of the application gets deployed.
+Nuxt 3 has a powerful system of [lifecycle hooks](https://nuxt.com/docs/api/advanced/hooks) that we can leverage to execute the migrations. We will use the `build:before` hook because the migrations should run before application changes are deployed.
 
 We can add handlers for hooks in the `nuxt.config.ts` file:
 
@@ -90,9 +90,13 @@ Things to note:
 - we exit the handler early during development and instead rely on db push to apply schema changes to the database
 - make sure to use the same migrations folder that you specify in your `drizzle.config.ts` file
 
-## Method 2: Server Prepare Nuxt Module
+<aside className="info">
+  Drizzle will connect to Turso on each deployment, but only new migration scripts will be applied.
+</aside>
 
-In the second method, we will leverage the handy [nuxt-prepare module](https://nuxt.com/modules/prepare) instead of our own lifecycle hook handler. Start by adding the module to your `nuxt.config.ts` file and create a new `server.prepare.ts` file in your project root.
+## Method 2: Nuxt Prepare Module
+
+In the second method, we will leverage the [nuxt-prepare module](https://nuxt.com/modules/prepare) instead of our own lifecycle hook handler. Start by adding the module to your `nuxt.config.ts` file and create a new `server.prepare.ts` file in your project root.
 
 The code is identical to what we used in the lifecycle hook example, except that we return an empty object to satisfy the return type of the prepare handler.
 
@@ -138,6 +142,6 @@ I prefer the use of a dedicated server prepare script over a build time hook han
 
 ## Bonus
 
-In the code examples, you will see that I import the [consola](https://github.com/unjs/consola) module. It is a handy [UnJS](https://unjs.io/) package that comes with Nuxt.
+In the code examples, you will see that I import the [consola](https://github.com/unjs/consola) module. It is an [UnJS](https://unjs.io/) package that comes with Nuxt.
 
-Using consola is an easy way to prettify logs during development. I encourage you to check it out =]
+Consola helps to prettify logs during development. I encourage you to check it out =]
