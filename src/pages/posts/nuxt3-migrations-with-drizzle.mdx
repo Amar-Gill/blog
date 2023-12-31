@@ -1,8 +1,8 @@
 ---
 layout: "@/layouts/BlogPost"
-title: Automatic Migrations in Nuxt3 using Drizzle
+title: Automatic Migrations in Nuxt 3 using Drizzle
 publishDate: December 30, 2023
-description: Automatically apply migrations with Drizzle Kit for your Nuxt3 application when deploying to Vercel.
+description: Automatically apply migrations with Drizzle Kit for your Nuxt 3 application when deploying to Vercel.
 tags: ["nuxt", "drizzle", "turso", "database"]
 draft: true
 ---
@@ -22,7 +22,7 @@ We will cover two methods to achieve this.
 
 ## Architecture
 
-This will work for a Nuxt3 application deployed to [Vercel](https://vercel.com/) or a similar hosting provider with a Github integration.
+This will work for a Nuxt 3 application deployed to [Vercel](https://vercel.com/) or a similar hosting provider with a Github integration.
 
 In this example we are leveraging [Turso](https://turso.tech/) as our hosted database provider. It should work the same for other hosted database providers such as [PlanetScale](https://planetscale.com/) or [Neon](https://neon.tech/).
 
@@ -37,7 +37,7 @@ In this example we are leveraging [Turso](https://turso.tech/) as our hosted dat
 
 ## Method 1: Nuxt Build Hooks
 
-Nuxt3 has a powerful system of [lifecycle hooks](https://nuxt.com/docs/api/advanced/hooks) that we can leverage to execute the migrations. We will use the `build:before` hook because the migration should run before the new version of the application gets deployed.
+Nuxt 3 has a powerful system of [lifecycle hooks](https://nuxt.com/docs/api/advanced/hooks) that we can leverage to execute the migrations. We will use the `build:before` hook because the migration should run before the new version of the application gets deployed.
 
 We can add handlers for hooks in the `nuxt.config.ts` file:
 
