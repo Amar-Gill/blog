@@ -87,6 +87,7 @@ Things to note:
 - as this handler runs before Nuxt is initialized, we access our Turso environment variables through `process.env` instead of `runtimeConfig`
 - we exit the handler early during development and instead rely on db push to apply schema changes to the database
 - make sure to use the same migrations folder that you specify in your `drizzle.config.ts` file
+- the process fails with exit code 1 if the migration fails, so your application will not get deployed without the required database changes
 
 <aside className="info">
   Drizzle will connect to Turso on each deployment, but only new migration scripts will be applied.
